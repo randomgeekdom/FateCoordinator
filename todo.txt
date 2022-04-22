@@ -1,0 +1,3 @@
+Hide left bar if not authenticated
+
+Fill out home screen
