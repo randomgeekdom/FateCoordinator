@@ -1,3 +1,5 @@
 Hide left bar if not authenticated
 
 Fill out home screen
+
+Fix password requirements and email verification

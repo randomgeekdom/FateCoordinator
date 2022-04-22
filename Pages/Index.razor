@@ -1,9 +1,16 @@
 ﻿@page "/"
 
-<PageTitle>Indexd</PageTitle>
-
-<h1>Hello, worldd!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<AuthorizeView>
+    <Authorized>
+        CHARACTERS
+        GAMES
+    </Authorized>
+    <NotAuthorized>
+        <div class="text-center py-3">
+            <h1>Welcome to FATE Coordinator</h1>
+            <jumbotron>
+                The purpose of this site is to manage games played in the FATE Core/Condensed tabletop RPG system.  Please <a href="Identity/Account/Login">log in</a> or <a href="Identity/Account/Register">register</a> to start using the application.  
+            </jumbotron>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

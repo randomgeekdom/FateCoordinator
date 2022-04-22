@@ -26,3 +26,16 @@
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.nav-link {
+    text-transform: none;
+    text-decoration: underline;
+}
+
+main {
+    margin: 0px 50px;
+}
+
+.beginning {
+    justify-content: start;
+}
