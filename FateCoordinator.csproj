@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FateCoordinator.Model\FateCoordinator.Model.csproj" />
+    <ProjectReference Include="..\FateCoordinator.Repositories\FateCoordinator.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

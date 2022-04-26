@@ -1,10 +1,10 @@
+using AutoMapper;
 using FateCoordinator.Areas.Identity;
 using FateCoordinator.Data;
-using Microsoft.AspNetCore.Components;
+using FateCoordinator.Model.Characters;
+using FateCoordinator.Repositories;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,12 +14,26 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+var config = new MapperConfiguration(cfg => cfg.CreateMap<Character, CharacterDto>());
+var mapper = config.CreateMapper();
+
+builder.Services.AddSingleton<IMapper>(mapper);
+builder.Services.AddTransient<IFateCoordinatorContext>(x => x.GetService<ApplicationDbContext>());
+builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
 
 var app = builder.Build();
 

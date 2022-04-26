@@ -1,0 +1,32 @@
+﻿@page "/characters"
+@using FateCoordinator.Repositories
+@inject ICharacterRepository characterRepository;
+
+<PageTitle>Enemies</PageTitle>
+
+<h1>Enemies</h1>
+
+<button class="btn btn-primary" @onclick="(async)=>CreateAsync()">Create Character</button>
+
+<div class="row">
+    @foreach(var character in characters)
+    {
+        <div class="col-md-6">
+            Name: @character.Name
+        </div>
+    }
+</div>
+
+@code {
+    private List<CharacterDto> characters = new List<CharacterDto>();
+
+    public async Task GetAllAsync()
+    {
+        characters = (await this.characterRepository.GetAllAsync(new Guid())).ToList();
+    }
+
+    public async Task CreateAsync()
+    {
+        characters.Add(await this.characterRepository.AddCharacterAsync(new Guid(), "New Character"));
+    }
+}
