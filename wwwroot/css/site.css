@@ -58,3 +58,30 @@ main {
 .text-negative {
     color: gainsboro;
 }
+
+h1, h2{
+    color: aliceblue;
+}
+
+h2{
+    text-align: center;
+}
+
+.btn-link{
+    text-transform:none;
+}
+
+a{
+  text-decoration: none;  
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.unauthed-home{
+    align-content: center;
+    text-align: center;
+    background: rgb(147, 198, 215);
+    border-radius: 100px;
+}
