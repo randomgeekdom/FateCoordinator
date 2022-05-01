@@ -1,6 +1,9 @@
 Fill out home screen
 
 Character Page
-	Inject user ID into character page
-		Game Page
-		Enemies Page (include all enemies, my enemies, community enemies)
+	Read-only vs editable (EDIT/SAVE BUTTON)
+	Dice Roller on sheet
+	
+Game Page
+
+Enemies Page (include all enemies, my enemies, community enemies)

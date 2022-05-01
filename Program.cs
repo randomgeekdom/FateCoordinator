@@ -1,5 +1,6 @@
 using AutoMapper;
 using FateCoordinator.Areas.Identity;
+using FateCoordinator.Contracts;
 using FateCoordinator.Data;
 using FateCoordinator.Model.Characters;
 using FateCoordinator.Repositories;

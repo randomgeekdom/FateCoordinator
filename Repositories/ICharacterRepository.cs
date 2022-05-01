@@ -1,4 +1,6 @@
-﻿namespace FateCoordinator.Repositories
+﻿using FateCoordinator.Contracts;
+
+namespace FateCoordinator.Repositories
 {
     public interface ICharacterRepository
     {

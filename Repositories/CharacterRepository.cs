@@ -1,7 +1,6 @@
-﻿using AutoMapper;
+﻿using FateCoordinator.Contracts;
 using FateCoordinator.Model.Characters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.JSInterop;
 using Newtonsoft.Json;
 
 namespace FateCoordinator.Repositories
@@ -9,12 +8,10 @@ namespace FateCoordinator.Repositories
     public class CharacterRepository : ICharacterRepository
     {
         private readonly IFateCoordinatorContext context;
-        private readonly IMapper mapper;
 
-        public CharacterRepository(IFateCoordinatorContext context, IMapper mapper)
+        public CharacterRepository(IFateCoordinatorContext context)
         {
             this.context = context;
-            this.mapper = mapper;
         }
 
         public async Task<CharacterDto> AddCharacterAsync(Guid userId, string name)
@@ -27,7 +24,8 @@ namespace FateCoordinator.Repositories
             var dto = new CharacterDto
             {
                 Id = character.Id,
-                Name = name
+                Name = name,
+                Skills = Skills.GetAll().ToDictionary(x => x, y => 0)
             };
 
             character.Data = JsonConvert.SerializeObject(dto);
@@ -36,6 +34,15 @@ namespace FateCoordinator.Repositories
             await context.SaveChangesAsync();
 
             return dto;
+        }
+
+        public async Task DeleteCharacterAsync(Guid userId, Guid characterId)
+        {
+            var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == characterId && x.UserId == userId);
+
+            this.context.Characters.Remove(existingCharacter);
+
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CharacterDto>> GetAllAsync(Guid userId)
@@ -75,15 +82,6 @@ namespace FateCoordinator.Repositories
             var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == character.Id && x.UserId == userId);
 
             existingCharacter.Data = JsonConvert.SerializeObject(character);
-
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeleteCharacterAsync(Guid userId, Guid characterId)
-        {
-            var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == characterId && x.UserId == userId);
-
-            this.context.Characters.Remove(existingCharacter);
 
             await context.SaveChangesAsync();
         }
