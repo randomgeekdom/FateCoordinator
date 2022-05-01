@@ -45,5 +45,22 @@ namespace FateCoordinator.Repositories
 
             return dtos;
         }
+
+        public async Task<CharacterDto?> GetCharacterAsync(Guid userId, Guid characterId)
+        {
+            var character = await this.context.Characters.FirstOrDefaultAsync(x => x.UserId == userId && x.Id == characterId);
+
+            if(character == null)
+            {
+                return null;
+            }
+
+            var dto = mapper.Map<CharacterDto>(character);
+            dto.Aspects = await this.context.CharacterAspects.Where(x => x.CharacterId == character.Id && x.UserId == userId)
+                                                             .OrderBy(x => x.AspectType)
+                                                             .Select(x => x.Name)
+                                                             .ToListAsync();
+            return dto;
+        }
     }
 }

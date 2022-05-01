@@ -2,6 +2,7 @@
 {
     public class CharacterDto
     {
+        public Guid Id { get; set; }
         public List<string> Aspects { get; set; } = new List<string>();
         public string? Description { get; set; }
 

@@ -1,0 +1,18 @@
+﻿@page "/character/{CharacterId}"
+@using FateCoordinator.Extensions
+
+@inject AuthenticationStateProvider authenticationStateProvider;
+
+<h2>@CharacterId</h2>
+
+@code {
+    [Parameter]
+    public string CharacterId { get; set; } = "";
+
+    private Guid characterId => Guid.Parse(this.CharacterId);
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await authenticationStateProvider.GetUserIdAsync();
+    }
+}

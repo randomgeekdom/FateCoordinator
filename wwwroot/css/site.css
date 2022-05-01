@@ -85,3 +85,10 @@ a:hover{
     background: rgb(147, 198, 215);
     border-radius: 100px;
 }
+
+.card-subtitle {
+    text-align: center;
+}
+.card-footer {
+    text-align: center;
+}
