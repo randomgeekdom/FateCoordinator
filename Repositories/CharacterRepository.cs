@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FateCoordinator.Model.Characters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
+using Newtonsoft.Json;
 
 namespace FateCoordinator.Repositories
 {
@@ -19,13 +21,21 @@ namespace FateCoordinator.Repositories
         {
             var character = new Character
             {
-                UserId = userId,
+                UserId = userId
+            };
+
+            var dto = new CharacterDto
+            {
+                Id = character.Id,
                 Name = name
             };
+
+            character.Data = JsonConvert.SerializeObject(dto);
+
             await context.Characters.AddAsync(character);
             await context.SaveChangesAsync();
 
-            return mapper.Map<CharacterDto>(character);
+            return dto;
         }
 
         public async Task<IEnumerable<CharacterDto>> GetAllAsync(Guid userId)
@@ -35,32 +45,47 @@ namespace FateCoordinator.Repositories
             var dtos = new List<CharacterDto>();
             foreach (var character in characters)
             {
-                var dto = mapper.Map<CharacterDto>(character);
-                dto.Aspects = await this.context.CharacterAspects.Where(x => x.CharacterId == character.Id && x.UserId == userId)
-                                                                 .OrderBy(x => x.AspectType)
-                                                                 .Select(x => x.Name)
-                                                                 .ToListAsync();
+                var dto = JsonConvert.DeserializeObject<CharacterDto>(character.Data);
+                if(dto == null)
+                {
+                    throw new ArgumentNullException(nameof(dto));
+                }
+
                 dtos.Add(dto);
             }
 
             return dtos;
         }
 
-        public async Task<CharacterDto?> GetCharacterAsync(Guid userId, Guid characterId)
+        public async Task<CharacterDto> GetCharacterAsync(Guid userId, Guid characterId)
         {
             var character = await this.context.Characters.FirstOrDefaultAsync(x => x.UserId == userId && x.Id == characterId);
 
             if(character == null)
             {
-                return null;
+                throw new ArgumentNullException($"No character of ID {characterId} exists for this user.");
             }
 
-            var dto = mapper.Map<CharacterDto>(character);
-            dto.Aspects = await this.context.CharacterAspects.Where(x => x.CharacterId == character.Id && x.UserId == userId)
-                                                             .OrderBy(x => x.AspectType)
-                                                             .Select(x => x.Name)
-                                                             .ToListAsync();
+            var dto = JsonConvert.DeserializeObject<CharacterDto>(character.Data);
             return dto;
+        }
+
+        public async Task SaveCharacterAsync(Guid userId, CharacterDto character)
+        {
+            var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == character.Id && x.UserId == userId);
+
+            existingCharacter.Data = JsonConvert.SerializeObject(character);
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCharacterAsync(Guid userId, Guid characterId)
+        {
+            var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == characterId && x.UserId == userId);
+
+            this.context.Characters.Remove(existingCharacter);
+
+            await context.SaveChangesAsync();
         }
     }
 }

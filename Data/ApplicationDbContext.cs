@@ -13,11 +13,8 @@ namespace FateCoordinator.Data
         {
         }
 
-        public DbSet<CharacterAspect> CharacterAspects { get; set; }
-        public DbSet<CharacterConsequence> CharacterConsequences { get; set; }
         public DbSet<Character> Characters { get; set; }
-        public DbSet<CharacterSkill> CharacterSkills { get; set; }
-        public DbSet<CharacterStressTrack> CharacterStressTracks { get; set; }
+
         public DbSet<GameCharacter> GameCharacters { get; set; }
         public DbSet<Game> Games { get; set; }
 

@@ -4,9 +4,11 @@
 
 @inject AuthenticationStateProvider authenticationStateProvider;
 @inject ICharacterRepository characterRepository;
+@inject IJSRuntime JS
+@inject NavigationManager NavManager
 
-<button class="btn btn-primary m-3 btn-sm">Save</button>
-<button class="btn btn-danger m-3 btn-sm">Delete</button>
+<button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+<button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
 <div class="card p-3">
 <form>
     <div class="form-group">
@@ -15,8 +17,6 @@
     </div>
 </form>
 </div>
-
-
 
 @code {
     [Parameter]
@@ -35,5 +35,19 @@
     private async Task<Guid> GetUserIdAsync()
     {
         return await authenticationStateProvider.GetUserIdAsync();
+    }
+
+    public async Task SaveAsync()
+    {
+        await this.characterRepository.SaveCharacterAsync(await this.GetUserIdAsync(), this.CharacterDto);
+    }
+
+    public async Task DeleteAsync()
+    {
+        if(await JS.Confirm("Are you sure you want to delete this character?"))
+        {
+            await this.characterRepository.DeleteCharacterAsync(await this.GetUserIdAsync(), this.CharacterId);
+            this.NavManager.NavigateTo("/characters");
+        }
     }
 }
