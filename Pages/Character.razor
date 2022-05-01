@@ -8,20 +8,78 @@
 @inject IJSRuntime JS
 @inject NavigationManager NavManager
 
-<button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+@if(this.IsEditing)
+{
+    <button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+}
+else
+{
+    <button class="btn btn-primary m-3 btn-sm" @onclick="ToggleEdit">Edit</button>
+}
+
 <button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
-<div class="card p-3">
-<form>
-    <div class="form-group">
-        <label for="characterName">Name</label>
-        <input id="characterName" class="form-control form-control-sm" type="text" placeholder="Character Name" @bind="CharacterDto.Name"/>
+
+@if(this.IsEditing)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white">ID</h5>
+                </div>
+                <form class="m-2">
+                    <div class="form-group">
+                        <label for="characterName">Name</label>
+                        <input id="characterName" class="form-control form-control-sm" type="text" @bind="CharacterDto.Name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" class="form-control form-control-sm" @bind="CharacterDto.Description"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="fatePoints">Current Fate Points</label>
+                        <input id="fatePoints" type="number" class="form-control form-control-sm" @bind="CharacterDto.FatePoints"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="refresh">Refresh</label>
+                        <input id="refresh" type="number" class="form-control form-control-sm"  @bind="CharacterDto.Refresh"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white">Aspects</h5>
+                </div>
+                <form class="m-2">
+                    @foreach(var (aspect, index) in CharacterDto.Aspects.Select((item, index)=>(item, index)))
+                    {
+                        <div class="form-group">
+                            <input id="characterName" class="form-control form-control-sm" type="text" value="@aspect" @onchange="@(e => UpdateAspect(e.Value.ToString(), index))" placeholder="@GetPlaceholder(index)"/>
+                        </div>
+                    }
+                    @if (CharacterDto.Aspects.Count <= 5)
+                    {
+                        <a class="btn btn-light" @onclick="AddAspect">Add Aspect</a>   
+                    }
+                </form>
+            </div>
+        </div>
     </div>
-</form>
-</div>
+}
+else
+{
+    <div class="card border-2 p-3">
+        <p >Name: @CharacterDto.Name</p>
+    </div>
+}
 
 @code {
     [Parameter]
     public string CharacterIdText { get; set; } = "";
+
+    public bool IsEditing{ get; set; }
 
     private Guid CharacterId => Guid.Parse(this.CharacterIdText);
 
@@ -41,6 +99,7 @@
     public async Task SaveAsync()
     {
         await this.characterRepository.SaveCharacterAsync(await this.GetUserIdAsync(), this.CharacterDto);
+        this.IsEditing = false;
     }
 
     public async Task DeleteAsync()
@@ -50,5 +109,36 @@
             await this.characterRepository.DeleteCharacterAsync(await this.GetUserIdAsync(), this.CharacterId);
             this.NavManager.NavigateTo("/characters");
         }
+    }
+
+    public void ToggleEdit()
+    {
+        this.IsEditing = !this.IsEditing;
+    }
+
+    public void AddAspect()
+    {
+        this.CharacterDto.Aspects.Add(string.Empty);
+    }
+
+    public string GetPlaceholder(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return "High Concept";
+            case 1:
+                return "Trouble";
+            case 2:
+                return "Relationship/Other";
+            default:
+                return "Other";
+        }
+    }
+
+    public void UpdateAspect(string value, int index)
+    {
+        this.CharacterDto.Aspects.RemoveAt(index);
+        this.CharacterDto.Aspects.Insert(index, value);
     }
 }

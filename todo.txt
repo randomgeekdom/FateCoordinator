@@ -1,8 +1,9 @@
 Fill out home screen
 
 Character Page
-	Read-only vs editable (EDIT/SAVE BUTTON)
-	Dice Roller on sheet
+	Dice Roller on readonly sheet
+	Validate on Save
+	Allow Copy
 	
 Game Page
 

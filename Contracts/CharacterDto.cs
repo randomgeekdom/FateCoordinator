@@ -22,5 +22,7 @@ namespace FateCoordinator.Contracts
         public List<StressTrack> StressTracks { get; set; } = new List<StressTrack>();
 
         public List<Consequence> Consequences { get; set; } = new List<Consequence>();
+
+        public CharacterType CharacterType { get; set; } = CharacterType.Playable;
     }
 }
