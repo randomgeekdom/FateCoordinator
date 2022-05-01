@@ -1,32 +1,66 @@
 ﻿@page "/characters"
+
 @using FateCoordinator.Repositories
+@using FateCoordinator.Extensions;
+
 @inject ICharacterRepository characterRepository;
+@inject AuthenticationStateProvider authenticationStateProvider
 
-<PageTitle>Enemies</PageTitle>
+<PageTitle>Characters</PageTitle>
 
-<h1>Enemies</h1>
+<button class="btn btn-primary btn-sm m-3" @onclick="(async)=>CreateAsync()">Create Character</button>
 
-<button class="btn btn-primary" @onclick="(async)=>CreateAsync()">Create Character</button>
-
-<div class="row">
-    @foreach(var character in characters)
-    {
-        <div class="col-md-6">
-            Name: @character.Name
-        </div>
-    }
-</div>
+@if (characters.Any())
+{
+    <div class="row">
+        @foreach(var character in characters)
+        {
+            <div class="col-md-4">
+                <div class="card m-3">
+                    <div class="card-header bg-primary bg-opacity-75">
+                        <div class="card-title">
+                            <h2>@character.Name</h2>
+                        </div>
+                        <div class="card-subtitle">
+                            <sub>Card subtitle - HC</sub>
+                            <sub>Card subtitle - Trouble</sub>
+                        </div>
+                    </div>
+                    <div class="card-body">Card Body: Other aspects + stunt names</div>
+                    <div class="card-footer">
+                        <sub>Footer: Should contain game that it's a part of</sub>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>No characters have been created</div>
+}
 
 @code {
     private List<CharacterDto> characters = new List<CharacterDto>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        await this.GetAllAsync();
+        await base.OnInitializedAsync();
+    }
+
     public async Task GetAllAsync()
     {
-        characters = (await this.characterRepository.GetAllAsync(new Guid())).ToList();
+        characters = (await this.characterRepository.GetAllAsync(await this.GetUserIdAsync())).ToList();
     }
 
     public async Task CreateAsync()
     {
-        characters.Add(await this.characterRepository.AddCharacterAsync(new Guid(), "New Character"));
+        characters.Add(await this.characterRepository.AddCharacterAsync(await this.GetUserIdAsync(), "New Character"));
+    }
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await authenticationStateProvider.GetUserIdAsync();
     }
 }

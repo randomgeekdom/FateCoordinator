@@ -7,9 +7,11 @@ namespace FateCoordinator.Model.Characters
         /// <summary>
         /// High Concept, Trouble, Relationship, Aspect
         /// </summary>
-        public string? AspectType { get; set; }
+        public AspectType AspectType { get; set; }
+
+        public Guid CharacterId { get; set; }
 
         [StringLength(250)]
-        public string? Name { get; set; }
+        public string Name { get; set; } = "";
     }
 }

@@ -31,7 +31,19 @@ namespace FateCoordinator.Repositories
         public async Task<IEnumerable<CharacterDto>> GetAllAsync(Guid userId)
         {
             var characters = await this.context.Characters.Where(x => x.UserId == userId).ToListAsync();
-            return mapper.Map<IEnumerable<CharacterDto>>(characters);
+
+            var dtos = new List<CharacterDto>();
+            foreach (var character in characters)
+            {
+                var dto = mapper.Map<CharacterDto>(character);
+                dto.Aspects = await this.context.CharacterAspects.Where(x => x.CharacterId == character.Id && x.UserId == userId)
+                                                                 .OrderBy(x => x.AspectType)
+                                                                 .Select(x => x.Name)
+                                                                 .ToListAsync();
+                dtos.Add(dto);
+            }
+
+            return dtos;
         }
     }
 }

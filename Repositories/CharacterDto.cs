@@ -2,6 +2,7 @@
 {
     public class CharacterDto
     {
+        public List<string> Aspects { get; set; } = new List<string>();
         public string? Description { get; set; }
 
         public int FatePoints { get; set; } = 3;
