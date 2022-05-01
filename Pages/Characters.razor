@@ -8,7 +8,7 @@
 
 <PageTitle>Characters</PageTitle>
 
-<button class="btn btn-primary btn-sm m-3" @onclick="(async)=>CreateAsync()">Create Character</button>
+<button class="btn btn-primary btn-sm" @onclick="(async)=>CreateAsync()">Create Character</button>
 
 @if (characters.Any())
 {
@@ -22,8 +22,8 @@
                             <h2>@character.Name</h2>
                         </div>
                         <div class="card-subtitle">
-                            <sub>Card subtitle - HC</sub>
-                            <sub>Card subtitle - Trouble</sub>
+                            <sub class="text-positive">Card subtitle - HC</sub>
+                            <sub class="text-negative">Card subtitle - Trouble</sub>
                         </div>
                     </div>
                     <div class="card-body">Card Body: Other aspects + stunt names</div>

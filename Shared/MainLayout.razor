@@ -5,17 +5,13 @@
 <div class="page">
     <AuthorizeView>
         <Authorized>
-            
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
         </Authorized>
     </AuthorizeView>
 
     <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-        </div>
 
         <article class="content px-4">
             @Body
@@ -23,7 +19,8 @@
     </main>
 </div>
 
+        <div class="bottom-row px-4 auth">
+            <LoginDisplay />
+        </div>
     <footer>
-        <div>Source for this site can be found at: <a href="https://github.com/randomgeekdom/fatecoordinator">https://github.com/randomgeekdom/fatecoordinator</a></div>
-        <div>All FATE products are intellectual property of <a href="https://www.evilhat.com/home/">Evil Hat Games</a></div>
     </footer>

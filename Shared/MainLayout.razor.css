@@ -6,27 +6,32 @@
 
 main {
     flex: 1;
+    margin-top: 50px;
 }
 
 .sidebar {
     background-image: linear-gradient(180deg, #0052a4, #006688);
 }
 
-.top-row {
-    background-color: #fff;
-    border-bottom: 1px solid #006688;
+.bottom-row {
+    border-color: #006688;
+    border-top: 1px solid #006688;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;
     align-items: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
-    .top-row ::deep a, .top-row .btn-link {
+    .bottom-row ::deep a, .top-row .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
     }
 
-    .top-row a:first-child {
+    .bottom-row a:first-child {
         overflow: hidden;
         text-overflow: ellipsis;
     }
