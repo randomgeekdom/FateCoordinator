@@ -1,14 +1,14 @@
 ﻿<AuthorizeView>
     <Authorized>
         
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Identity/Account/Manage">
+        <div class="nav-item px-3 auth-links">
+            <NavLink href="Identity/Account/Manage" class="auth-links">
                 Hello, @context.User.Identity?.Name!
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Identity/Account/Manage">
-                <button type="submit" class="nav-link active btn btn-link">Log out</button>
+            <NavLink>
+                <button type="submit" class="nav-link btn btn-link auth-links">Log out</button>
             </NavLink>
         </div>
 

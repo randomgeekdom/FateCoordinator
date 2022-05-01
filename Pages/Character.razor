@@ -1,15 +1,36 @@
-﻿@page "/character/{CharacterId}"
+﻿@page "/character/{CharacterIdText}"
 @using FateCoordinator.Extensions
+@using FateCoordinator.Repositories
 
 @inject AuthenticationStateProvider authenticationStateProvider;
+@inject ICharacterRepository characterRepository;
 
-<h2>@CharacterId</h2>
+<button class="btn btn-primary m-3 btn-sm">Save</button>
+<button class="btn btn-danger m-3 btn-sm">Delete</button>
+<div class="card p-3">
+<form>
+    <div class="form-group">
+        <label for="characterName">Name</label>
+        <input id="characterName" class="form-control form-control-sm" type="text" placeholder="Character Name" @bind="CharacterDto.Name"/>
+    </div>
+</form>
+</div>
+
+
 
 @code {
     [Parameter]
-    public string CharacterId { get; set; } = "";
+    public string CharacterIdText { get; set; } = "";
 
-    private Guid characterId => Guid.Parse(this.CharacterId);
+    private Guid CharacterId => Guid.Parse(this.CharacterIdText);
+
+    public CharacterDto CharacterDto { get; set; } = new CharacterDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.CharacterDto = await this.characterRepository.GetCharacterAsync(await this.GetUserIdAsync(), this.CharacterId);
+        await base.OnInitializedAsync();
+    }
 
     private async Task<Guid> GetUserIdAsync()
     {

@@ -19,14 +19,21 @@
                 <div class="card m-3">
                     <div class="card-header bg-primary bg-opacity-75">
                         <div class="card-title">
-                            <a href="character/@character.Id"><h2>@character.Name ddd</h2></a>
+                            <a href="character/@character.Id"><h2>@character.Name</h2></a>
                         </div>
                         <div class="card-subtitle">
-                            <sub class="text-positive">Card subtitle - HC</sub>
-                            <sub class="text-negative">Card subtitle - Trouble</sub>
+                            <sub class="text-positive">@GetCharacterAspect(character, 0)</sub>
+                            <sub class="text-negative">@GetCharacterAspect(character, 1)</sub>
                         </div>
                     </div>
-                    <div class="card-body">Card Body: Other aspects + stunt names</div>
+                    <div class="card-body">
+                        <ul>
+                            @for(int i = 2; i < character.Aspects.Count; i++)
+                            {
+                                <li>@character.Aspects.ElementAt(i)</li>
+                            }
+                        </ul>
+                    </div>
                     <div class="card-footer">
                         <sub>Footer: Should contain game that it's a part of</sub>
                     </div>
@@ -62,5 +69,15 @@ else
     private async Task<Guid> GetUserIdAsync()
     {
         return await authenticationStateProvider.GetUserIdAsync();
+    }
+
+    public string GetCharacterAspect(CharacterDto character, int index)
+    {
+        if(character.Aspects.Count > index)
+        {
+            return character.Aspects.ElementAt(index);
+        }
+
+        return "";
     }
 }
