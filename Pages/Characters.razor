@@ -6,6 +6,7 @@
 
 @inject ICharacterRepository characterRepository;
 @inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager NavManager
 
 <PageTitle>Characters</PageTitle>
 
@@ -64,7 +65,8 @@ else
 
     public async Task CreateAsync()
     {
-        characters.Add(await this.characterRepository.AddCharacterAsync(await this.GetUserIdAsync(), "New Character"));
+        var character = await this.characterRepository.AddCharacterAsync(await this.GetUserIdAsync(), "New Character");
+        this.NavManager.NavigateTo($"/character/{character.Id}");
     }
 
     private async Task<Guid> GetUserIdAsync()
