@@ -53,8 +53,26 @@ else
                 </div>
                 <form class="m-2">
                     <div class="form-group">
-                        <textarea id="extras" class="form-control form-control-sm" @bind="CharacterDto.Extras"/>
+                        <textarea id="extras" class="form-control form-control-sm" @bind="CharacterDto.Extras" placeholder="Enter any extra information here"/>
                     </div>
+                </form>
+            </div>
+            
+            <div class="card my-3">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white">Stress</h5>
+                </div>
+                <form class="m-2">
+                    @foreach(var stressTrack in CharacterDto.StressTracks)
+                    {
+                        <div class="form-group">
+                            <h6>@stressTrack.Name (@stressTrack.Skill): </h6>
+                            @foreach(var stress in stressTrack.Stress)
+                            {
+                                @stress.Key <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" @onchange="@(e => UpdateStress(e.Value.ToString(), stressTrack.Name, stress.Key))" /> 
+                            }
+                        </div>
+                    }
                 </form>
             </div>
         </div>
@@ -95,6 +113,7 @@ else
                         <div class="form-group">
                             <label for="@skill.Key">@skill.Key</label>
                             <input id="@skill.Key" class="form-control form-control-sm" type="number" value="@skill.Value" @onchange="@(e => UpdateSkill(skill.Key, int.Parse(e.Value.ToString())))"/>
+                                @*<small class="text-end">@GetTextValue(@skill.Value)</small>*@
                         </div>
                     }
                 </form>
@@ -181,5 +200,32 @@ else
     public void UpdateSkill(string key, int value)
     {
         this.CharacterDto.Skills[key] = value;
+    }
+
+    public string GetTextValue(int numericValue)
+    {
+        var dictionary = new Dictionary<int, string>
+        {
+            {5, "Superb"},
+            {4, "Great"},
+            {3, "Good"},
+            {2, "Fair"},
+            {1, "Average"},
+            {0, "Mediocre"},
+        };
+
+        if(!dictionary.TryGetValue(numericValue, out var textValue))
+        {
+            textValue = "Invalid";
+        }
+
+        return textValue;
+    }
+
+    public void UpdateStress(string textValue, string trackName, int stress)
+    {
+        var value = bool.Parse(textValue);
+        var track = this.CharacterDto.StressTracks.Single(x => x.Name == trackName);
+        track.Stress[stress] = value;
     }
 }

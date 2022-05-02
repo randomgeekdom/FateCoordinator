@@ -6,5 +6,6 @@ Character Page
 	Allow Copy
 	
 Game Page
+	Roll history
 
 Enemies Page (include all enemies, my enemies, community enemies)
