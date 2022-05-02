@@ -17,7 +17,7 @@ namespace FateCoordinator.Contracts
         public Dictionary<string, int> Skills { get; set; } = new Dictionary<string, int>();
 
         public string Extras { get; set; } = string.Empty;
-        public List<string> Stunts { get; set; } = new List<string>();
+        public string Stunts { get; set; } = String.Empty;
 
         public List<StressTrack> StressTracks { get; set; } = new List<StressTrack>();
 

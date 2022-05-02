@@ -25,14 +25,16 @@
                         </div>
                         <div class="card-subtitle">
                             <sub class="text-positive">@GetCharacterAspect(character, 0)</sub>
-                            <sub class="text-negative">@GetCharacterAspect(character, 1)</sub>
                         </div>
                     </div>
                     <div class="card-body">
                         <ul>
-                            @for(int i = 2; i < character.Aspects.Count; i++)
+                            @for(int i = 1; i < character.Aspects.Count; i++)
                             {
-                                <li>@character.Aspects.ElementAt(i)</li>
+                                if (!string.IsNullOrWhiteSpace(character.Aspects.ElementAt(i)))
+                                {
+                                    <li>@character.Aspects.ElementAt(i)</li>   
+                                }
                             }
                         </ul>
                     </div>

@@ -21,12 +21,7 @@ namespace FateCoordinator.Repositories
                 UserId = userId
             };
 
-            var dto = new CharacterDto
-            {
-                Id = character.Id,
-                Name = name,
-                Skills = Skills.GetAll().ToDictionary(x => x, y => 0)
-            };
+            var dto = this.GetNewCharacter(character.Id, name);
 
             character.Data = JsonConvert.SerializeObject(dto);
 
@@ -53,7 +48,7 @@ namespace FateCoordinator.Repositories
             foreach (var character in characters)
             {
                 var dto = JsonConvert.DeserializeObject<CharacterDto>(character.Data);
-                if(dto == null)
+                if (dto == null)
                 {
                     throw new ArgumentNullException(nameof(dto));
                 }
@@ -68,7 +63,7 @@ namespace FateCoordinator.Repositories
         {
             var character = await this.context.Characters.FirstOrDefaultAsync(x => x.UserId == userId && x.Id == characterId);
 
-            if(character == null)
+            if (character == null)
             {
                 throw new ArgumentNullException($"No character of ID {characterId} exists for this user.");
             }
@@ -84,6 +79,60 @@ namespace FateCoordinator.Repositories
             existingCharacter.Data = JsonConvert.SerializeObject(character);
 
             await context.SaveChangesAsync();
+        }
+
+        private CharacterDto GetNewCharacter(Guid characterId, string name)
+        {
+            return new CharacterDto
+            {
+                Id = characterId,
+                Name = name,
+                Skills = Skills.GetAll().ToDictionary(x => x, y => 0),
+                Aspects = Enumerable.Repeat(string.Empty, 5).ToList(),
+                Consequences = new List<Consequence>
+                {
+                    new Consequence{
+                        Condition = string.Empty,
+                        Level = 2
+                    },
+
+                    new Consequence{
+                        Condition = string.Empty,
+                        Level = 4
+                    },
+
+                    new Consequence{
+                        Condition = string.Empty,
+                        Level = 6
+                    }
+                },
+                StressTracks = new List<StressTrack>
+                {
+                    new StressTrack
+                    {
+                        Name = "Physical Stress",
+                        Skill = Skills.Physique,
+                        Stress = new Dictionary<int, bool>
+                        {
+                            { 1, false },
+                            { 2, false },
+                        }
+                    },
+
+                    new StressTrack
+                    {
+                        Name = "Mental Stress",
+                        Skill = Skills.Will,
+                        Stress = new Dictionary<int, bool>
+                        {
+                            { 1, false },
+                            { 2, false },
+                        }
+                    }
+                },
+                Refresh = 3,
+                FatePoints = 3
+            };
         }
     }
 }
