@@ -101,6 +101,24 @@ else
                     </div>
                 </form>
             </div>
+
+            
+            
+            <div class="card my-3">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white">Consequences</h5>
+                </div>
+                <form class="m-2 row">
+                    @foreach(var consequence in CharacterDto.Consequences)
+                    {
+                        <div class="card col-md-12 my-1">
+                            <label for="@("Consequence"+consequence.Condition)">@consequence.Level</label>
+                            <input id="@("Consequence"+consequence.Condition)" class="form-control form-control-sm" type="text" value="@consequence.Condition" @onchange="@(e => UpdateConsequence(e.Value.ToString(), consequence.Level))" placeholder="@GetConsequencePlaceholder(consequence.Level)"/> 
+                    
+                        </div>
+                    }
+                </form>
+            </div>
         </div>
         <div class="col-md-2 my-3">
             <div class="card">
@@ -222,10 +240,39 @@ else
         return textValue;
     }
 
+    public string GetConsequencePlaceholder(int value)
+    {
+        if(value <= 2)
+        {
+            return "Mild";
+        }
+
+        if(value <= 4)
+        {
+            return "Moderate";
+        }
+
+        if(value <= 6)
+        {
+            return "Severe";
+        }
+
+        return string.Empty;
+    }
+
     public void UpdateStress(string textValue, string trackName, int stress)
     {
         var value = bool.Parse(textValue);
         var track = this.CharacterDto.StressTracks.Single(x => x.Name == trackName);
         track.Stress[stress] = value;
+    }
+
+    public void UpdateConsequence(string value, int level)
+    {
+        var consequence = CharacterDto.Consequences.FirstOrDefault(x => x.Level == level);
+        if (consequence != null)
+        {
+            consequence.Condition = value;
+        }
     }
 }
