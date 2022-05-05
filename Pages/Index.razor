@@ -1,9 +1,54 @@
 ﻿@page "/"
+@using FateCoordinator.Contracts
+@using FateCoordinator.Repositories
+@using FateCoordinator.Extensions
+
+@inject ICharacterRepository characterRepository;
+@inject AuthenticationStateProvider authenticationStateProvider;
 
 <AuthorizeView>
     <Authorized>
-        CHARACTERS
-        GAMES
+        <h1>Dashboard</h1>
+        <div class="row ">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <div class="card-title"><h2>Characters</h2></div>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            @foreach(var character in characters)
+                            {
+                                <div class="row">
+                                    <a class="btn btn-outline-primary" href="/character/@character.Id">
+                                        @character.Name 
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <div class="card-title"><h2>Characters</h2></div>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            @foreach(var character in characters)
+                            {
+                                <div class="row">
+                                    <a class="btn btn-outline-primary" href="/character/@character.Id">
+                                        @character.Name 
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
     </Authorized>
     <NotAuthorized>
         <div class="unauthed-home">
@@ -14,3 +59,18 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
+
+@code{
+    private IEnumerable<CharacterDto> characters = Enumerable.Empty<CharacterDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.characters = await this.characterRepository.GetAllAsync(await this.GetUserIdAsync());
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await this.authenticationStateProvider.GetUserIdAsync();
+    }
+}
