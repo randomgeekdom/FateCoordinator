@@ -23,6 +23,6 @@ namespace FateCoordinator.Contracts
 
         public List<Consequence> Consequences { get; set; } = new List<Consequence>();
 
-        public CharacterType CharacterType { get; set; } = CharacterType.Playable;
+        public CharacterType CharacterType { get; set; } = CharacterType.Player;
     }
 }

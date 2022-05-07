@@ -8,7 +8,12 @@ namespace FateCoordinator.Extensions
         public static Guid GetUserId(this ClaimsPrincipal principal)
         {
             string val = principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Guid.Parse(val);
+            if(!Guid.TryParse(val, out var id))
+            {
+                id = new Guid();
+            }
+
+            return id;
         }
 
         public static async Task<Guid> GetUserIdAsync(this AuthenticationStateProvider authenticationStateProvider)

@@ -1,7 +1,10 @@
 Fill out home screen
+	Once GAme Page is done add first 10 games
+	Filter to first 10 characters
 
 Character Page
-	Dice Roller on readonly sheet
+	Fill out readonly sheet
+		Dice Roller on readonly sheet
 	Validate on Save
 	Allow Copy
 	
