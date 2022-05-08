@@ -26,22 +26,6 @@ else
 
     <div class="row">
         <div class="col-md-5 my-3">
-            
-            <div class="card my-3">
-                <div class="card-header bg-@GetBootstrapColor()">
-                    <h5 class="text-white">Character Type</h5>
-                </div>
-                <form class="m-2">
-                    <div class="form-group">
-                        <select id="CharacterType" @bind="characterType" class="form-control">
-                            @foreach(var characterType in @Enum.GetValues<CharacterType>().Cast<CharacterType>())
-                            {
-                                <option value="@characterType.ToString()">@characterType</option>
-                            }
-                        </select>
-                    </div>
-                </form>
-            </div>
             <div class="card">
                 <div class="card-header bg-@GetBootstrapColor()">
                     <h5 class="text-white">ID</h5>
@@ -95,8 +79,23 @@ else
                 </form>
             </div>
         </div>
-        <div class="col-md-5 my-3">
+        <div class="col-md-5 my-3">       
             <div class="card">
+                <div class="card-header bg-@GetBootstrapColor()">
+                    <h5 class="text-white">Character Type</h5>
+                </div>
+                <form class="m-2">
+                    <div class="form-group">
+                        <select id="CharacterType" @bind="characterType" class="form-control">
+                            @foreach(var characterType in @Enum.GetValues<CharacterType>().Cast<CharacterType>())
+                            {
+                                <option value="@characterType.ToString()">@characterType</option>
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="card  my-3">
                 <div class="card-header bg-@GetBootstrapColor()">
                     <h5 class="text-white">Aspects</h5>
                 </div>
@@ -116,7 +115,7 @@ else
                 </div>
                 <form class="m-2">
                     <div class="form-group">
-                        <textarea id="stunts" class="form-control form-control-sm" @bind="CharacterDto.Stunts"/>
+                        <textarea id="stunts" class="form-control expandable-textarea" @bind="CharacterDto.Stunts"/>
                     </div>
                 </form>
             </div>
@@ -162,8 +161,55 @@ else
 }
 else
 {
-    <div class="card border-2 p-3">
-        <p >Name: @CharacterDto.Name</p>
+    <div class="card">
+        <div class="card-header bg-@GetBootstrapColor()">
+            <h5 class="text-white">@CharacterDto.Name</h5>
+        </div>
+        <div class="row">
+            <div class="card-body col-md-4">
+                <h6>Description</h6>
+                <p>@CharacterDto.Description</p>
+                <h6>Aspects</h6>
+                @foreach(var aspect in CharacterDto.Aspects)
+                {
+                    <p>@aspect</p>
+                }
+                <h6>Stunts</h6>
+                @foreach(var stunt in CharacterDto.Stunts.Split("\n\n", StringSplitOptions.RemoveEmptyEntries))
+                {
+                    <p>@stunt</p>
+                }
+                <h6>Extras</h6>
+                <p>@CharacterDto.Extras</p>
+            </div>
+            <div class="card-body col-md-4">
+                <h6>Fate Points</h6>
+                <p>@CharacterDto.FatePoints / @CharacterDto.Refresh</p>
+                @foreach(var stressTrack in CharacterDto.StressTracks)
+                {
+                    <h6>@stressTrack.Name (@stressTrack.Skill)</h6>
+                    @foreach(var stress in stressTrack.Stress)
+                    {
+                        @stress.Key <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" disabled /> 
+                    }
+                }
+                <h6>Consequences</h6>
+                @foreach(var consequence in CharacterDto.Consequences)
+                {
+                    <p>@consequence.Level : @consequence.Condition</p>
+                }
+            </div>
+            <div class="card-body col-md-4">
+                <h6>Skills</h6>
+                @for(var i = 5; i >= 0; i--)
+                {
+                    @if(CharacterDto.Skills.Any(x=>x.Value == i))
+                    {
+                        <p><b>+@i</b>: @string.Join(", ", CharacterDto.Skills.Where(x=>x.Value==i).Select(x=>x.Key).ToList())</p>
+                    }
+                }
+            </div>
+        </div>
     </div>
 }
 
