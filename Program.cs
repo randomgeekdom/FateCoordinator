@@ -4,6 +4,7 @@ using FateCoordinator.Contracts;
 using FateCoordinator.Data;
 using FateCoordinator.Model.Characters;
 using FateCoordinator.Repositories;
+using FateCoordinator.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ var mapper = config.CreateMapper();
 builder.Services.AddSingleton<IMapper>(mapper);
 builder.Services.AddTransient<IFateCoordinatorContext>(x => x.GetService<ApplicationDbContext>());
 builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
+builder.Services.AddTransient<IDieRollerService, DieRollerService>();
 
 var app = builder.Build();
 

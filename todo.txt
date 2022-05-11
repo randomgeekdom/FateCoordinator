@@ -1,13 +1,11 @@
-Fill out home screen
-	Once GAme Page is done add first 10 games
-	Filter to first 10 characters
-
 Character Page
 	Fill out readonly sheet
 		Dice Roller on readonly sheet
 		Make into its own reusable component
 	Validate on Save
 	Allow Copy
+	Allow Removing Stress
+	Allow Adding stress
 	
 Enemies Page (reinstate as a Bestiary)
 	Architect
@@ -16,3 +14,10 @@ Game Page
 	Details 
 	Characters
 	Roll history
+		Finish home screen
+			Once GAme Page is done add first 10 games
+			Filter to first 10 characters
+
+
+VERSION 2:
+Custom stress tracks
