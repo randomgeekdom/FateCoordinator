@@ -112,10 +112,10 @@ namespace FateCoordinator.Repositories
                     {
                         Name = "Physical Stress",
                         Skill = Skills.Physique,
-                        Stress = new Dictionary<int, bool>
+                        Stress = new List<Stress>
                         {
-                            { 1, false },
-                            { 2, false },
+                            new Stress( 1, false ),
+                            new Stress( 2, false )
                         }
                     },
 
@@ -123,10 +123,10 @@ namespace FateCoordinator.Repositories
                     {
                         Name = "Mental Stress",
                         Skill = Skills.Will,
-                        Stress = new Dictionary<int, bool>
+                        Stress = new List<Stress>
                         {
-                            { 1, false },
-                            { 2, false },
+                            new Stress( 1, false ),
+                            new Stress( 2, false )
                         }
                     }
                 },

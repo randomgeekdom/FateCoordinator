@@ -4,6 +4,6 @@
     {
         public string Skill { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
-        public Dictionary<int, bool> Stress { get; set; } = new Dictionary<int, bool>();
+        public List<Stress> Stress { get; set; } = new List<Stress>();
     }
 }

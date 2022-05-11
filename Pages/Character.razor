@@ -21,9 +21,6 @@ else
 
 @if(this.IsEditing)
 {
-    
-            
-
     <div class="row">
         <div class="col-md-5 my-3">
             <div class="card">
@@ -70,9 +67,9 @@ else
                     {
                         <div class="form-group">
                             <h6>@stressTrack.Name (@stressTrack.Skill): </h6>
-                            @foreach(var stress in stressTrack.Stress)
+                            @foreach(var (stress, index) in stressTrack.Stress.Select((key, value)=>(key, value)))
                             {
-                                @stress.Key <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" @onchange="@(e => UpdateStress(e.Value.ToString(), stressTrack.Name, stress.Key))" /> 
+                                @stress.Level <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" @onchange="@(e => UpdateStress(e.Value.ToString(), stressTrack.Name, stress.Level, index))" /> 
                             }
                         </div>
                     }
@@ -127,11 +124,11 @@ else
                     <h5 class="text-white">Consequences</h5>
                 </div>
                 <form class="m-2 row">
-                    @foreach(var consequence in CharacterDto.Consequences)
+                    @foreach(var (consequence, index) in CharacterDto.Consequences.Select((key, value)=>(key, value)))
                     {
                         <div class="card col-md-12 my-1">
                             <label for="@("Consequence"+consequence.Condition)">@consequence.Level</label>
-                            <input id="@("Consequence"+consequence.Condition)" class="form-control form-control-sm" type="text" value="@consequence.Condition" @onchange="@(e => UpdateConsequence(e.Value.ToString(), consequence.Level))" placeholder="@GetConsequencePlaceholder(consequence.Level)"/> 
+                            <input id="@("Consequence"+consequence.Condition)" class="form-control form-control-sm" type="text" value="@consequence.Condition" @onchange="@(e => UpdateConsequence(e.Value.ToString(), consequence.Level, index))" placeholder="@GetConsequencePlaceholder(consequence.Level)"/> 
                     
                         </div>
                     }
@@ -190,7 +187,7 @@ else
                     <h6>@stressTrack.Name (@stressTrack.Skill)</h6>
                     @foreach(var stress in stressTrack.Stress)
                     {
-                        @stress.Key <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" disabled /> 
+                        @stress.Level <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" disabled /> 
                     }
                 }
                 <h6>Consequences</h6>
@@ -325,16 +322,16 @@ else
         return string.Empty;
     }
 
-    public void UpdateStress(string textValue, string trackName, int stress)
+    public void UpdateStress(string textValue, string trackName, int stress, int index)
     {
         var value = bool.Parse(textValue);
-        var track = this.CharacterDto.StressTracks.Single(x => x.Name == trackName);
-        track.Stress[stress] = value;
+        var track = this.CharacterDto.StressTracks.Single(x=>x.Name==trackName);
+        track.Stress.ElementAt(index).Value = value;
     }
 
-    public void UpdateConsequence(string value, int level)
+    public void UpdateConsequence(string value, int level, int index)
     {
-        var consequence = CharacterDto.Consequences.FirstOrDefault(x => x.Level == level);
+        var consequence = CharacterDto.Consequences.ElementAt(index);
         if (consequence != null)
         {
             consequence.Condition = value;

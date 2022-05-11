@@ -5,8 +5,14 @@ Fill out home screen
 Character Page
 	Fill out readonly sheet
 		Dice Roller on readonly sheet
+		Make into its own reusable component
 	Validate on Save
 	Allow Copy
 	
+Enemies Page (reinstate as a Bestiary)
+	Architect
+
 Game Page
+	Details 
+	Characters
 	Roll history
