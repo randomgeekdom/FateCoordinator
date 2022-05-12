@@ -2,22 +2,43 @@
 @using FateCoordinator.Contracts
 @using FateCoordinator.Extensions
 @using FateCoordinator.Repositories
+@using FateCoordinator.Services
 
 @inject AuthenticationStateProvider authenticationStateProvider;
 @inject ICharacterRepository characterRepository;
-@inject IJSRuntime JS
-@inject NavigationManager NavManager
+@inject IJSRuntime JS;
+@inject NavigationManager NavManager;
+@inject IDieRollerService dieRollerService;
 
-@if(this.IsEditing)
-{
-    <button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
-}
-else
-{
-    <button class="btn btn-primary m-3 btn-sm" @onclick="ToggleEdit">Edit</button>
-}
+<div class="row">
+    <div class="col-md-8">
+        @if(this.IsEditing)
+        {
+            <button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+        }
+        else
+        {
+            <button class="btn btn-primary m-3 btn-sm" @onclick="ToggleEdit">Edit</button>
+        }
 
-<button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
+        <button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
+        <button class="btn btn-outline-light m-3 btn-sm" @onclick="()=>Roll(modifier)">Roll</button>
+
+        @if(this.DiceRollResult != null)
+        {
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FirstResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.SecondResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.ThirdResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FourthResult.ToString()).png" />
+            <inline>Result: @this.DiceRollResult.Result</inline>
+        }
+    </div>
+    <div class="col-md-4">
+        <form>
+            <inline>Roll Modifier: <input id="modifier" type="number" @bind="modifier" class="form-control form-control-sm text-white"/></inline>
+        </form>
+    </div>
+</div>
 
 @if(this.IsEditing)
 {
@@ -348,4 +369,13 @@ else
     {
         return this.CharacterDto.CharacterType.GetBoostrapColor();
     }
+
+    public DiceRollResult? DiceRollResult = null;
+
+    private void Roll(int modifier)
+    {
+        this.DiceRollResult = this.dieRollerService.RollDice(modifier);
+    }
+
+    public int modifier{ get; set; }
 }

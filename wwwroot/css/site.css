@@ -103,3 +103,15 @@ a:hover{
 color: #d7d7d7;
 text-decoration: underline;
 }
+
+.img-small {
+    height: 50px;
+    width: 50px;
+}
+
+inline{
+    color: white;
+    border-width: 1px;
+    border-color: lawngreen;
+    padding: 6px;
+}
