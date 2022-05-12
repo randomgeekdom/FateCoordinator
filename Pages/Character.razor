@@ -12,6 +12,21 @@
 
 <div class="row">
     <div class="col-md-8">
+        
+        <button class="btn btn-outline-light m-3 btn-sm" @onclick="()=>Roll(modifier)">Roll</button>
+        @if(this.DiceRollResult != null)
+        {
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FirstResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.SecondResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.ThirdResult.ToString()).png" />
+            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FourthResult.ToString()).png" />
+            <inline>Result: @this.DiceRollResult.Result</inline>
+        }
+        <form class="m-3">
+            <inline>Roll Modifier: <input id="modifier" type="number" @bind="modifier" class="form-control form-control-header form-control-sm text-white"/></inline>
+        </form>
+    </div>
+    <div class="col-md-4">
         @if(this.IsEditing)
         {
             <button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
@@ -22,21 +37,6 @@
         }
 
         <button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
-        <button class="btn btn-outline-light m-3 btn-sm" @onclick="()=>Roll(modifier)">Roll</button>
-
-        @if(this.DiceRollResult != null)
-        {
-            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FirstResult.ToString()).png" />
-            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.SecondResult.ToString()).png" />
-            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.ThirdResult.ToString()).png" />
-            <img class="rounded img-small" src="fate-die-@(this.DiceRollResult.FourthResult.ToString()).png" />
-            <inline>Result: @this.DiceRollResult.Result</inline>
-        }
-    </div>
-    <div class="col-md-4">
-        <form>
-            <inline>Roll Modifier: <input id="modifier" type="number" @bind="modifier" class="form-control form-control-sm text-white"/></inline>
-        </form>
     </div>
 </div>
 
@@ -223,7 +223,12 @@ else
                 {
                     @if(CharacterDto.Skills.Any(x=>x.Value == i))
                     {
-                        <p><b>+@i</b>: @string.Join(", ", CharacterDto.Skills.Where(x=>x.Value==i).Select(x=>x.Key).ToList())</p>
+                        <div><b>+@i</b>: 
+                            @foreach(var skill in CharacterDto.Skills.Where(x => x.Value == i))
+                            {
+                                <a class="btn btn-sm btn-outline-primary m-1" @onclick="()=>Roll(i)"> @skill.Key</a>
+                            }
+                        </div>
                     }
                 }
             </div>

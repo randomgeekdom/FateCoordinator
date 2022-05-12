@@ -1,11 +1,9 @@
 Character Page
-	Fill out readonly sheet
-		Dice Roller on readonly sheet
-		Make into its own reusable component
-	Validate on Save
+	Validator
 	Allow Copy
 	Allow Removing Stress
 	Allow Adding stress
+
 	
 Enemies Page (reinstate as a Bestiary)
 	Architect

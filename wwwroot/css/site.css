@@ -115,3 +115,9 @@ inline{
     border-color: lawngreen;
     padding: 6px;
 }
+
+.form-control-header{
+    width:fit-content;
+    display:inline;
+    text-align: right;
+}
