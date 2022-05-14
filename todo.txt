@@ -4,11 +4,11 @@ Character Page
 	Allow Removing Stress
 	Allow Adding stress
 
-	
 Enemies Page (reinstate as a Bestiary)
 	Architect
 
 Game Page
+	Games Page
 	Details 
 	Characters
 	Roll history
@@ -16,6 +16,16 @@ Game Page
 			Once GAme Page is done add first 10 games
 			Filter to first 10 characters
 
+Player Character Limit = 10
+
+Game Limit = 5
+
+
 
 VERSION 2:
 Custom stress tracks
+
+Tech Debt
+	Repositories can consolidate code
+	Views can reuse a "getuserid"
+	Get Rid of warnings

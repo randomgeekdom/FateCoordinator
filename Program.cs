@@ -37,6 +37,7 @@ builder.Services.AddSingleton<IMapper>(mapper);
 builder.Services.AddTransient<IFateCoordinatorContext>(x => x.GetService<ApplicationDbContext>());
 builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
 builder.Services.AddTransient<IDieRollerService, DieRollerService>();
+builder.Services.AddTransient<IGameRepository, GameRepository>();
 
 var app = builder.Build();
 

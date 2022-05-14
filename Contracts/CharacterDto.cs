@@ -2,6 +2,7 @@
 
 namespace FateCoordinator.Contracts
 {
+
     public class CharacterDto
     {
         public Guid Id { get; set; }

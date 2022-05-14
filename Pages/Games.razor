@@ -1,18 +1,71 @@
 ﻿@page "/games"
+@using FateCoordinator.Contracts
+@using FateCoordinator.Extensions
+@using FateCoordinator.Repositories
+
+@inject AuthenticationStateProvider authenticationStateProvider;
+@inject NavigationManager NavManager;
+@inject IGameRepository gameRepository;
 
 <PageTitle>Games</PageTitle>
 
 <h1>Games</h1>
 
-<p role="status">Current count: @currentCount</p>
+<button class="btn btn-primary btn-sm" @onclick="(async)=>CreateAsync()">Create Game</button>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+@if (games.Any())
+{
+    @foreach(var game in games)
+    {
+        <div class="col-md-4">
+            <div class="card m-3">
+                <div class="card-header bg-primary bg-opacity-75">
+                    <div class="card-title">
+                        <a href="character/@game.Id"><h2>@game.Name</h2></a>
+                    </div>
+                    <div class="card-subtitle">
+                        <sub class="text-positive">@game.Genre</sub>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @game.Description
+                </div>
+                <div class="card-footer">
+                    <sub>Footer: Should contain game that it's a part of</sub>
+                </div>
+            </div>
+        </div>
+    }
+}
 
 @code {
+    private List<GameDto> games = new List<GameDto>();
+
     private int currentCount = 0;
 
     private void IncrementCount()
     {
         currentCount++;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var games = await this.gameRepository.GetAllAsync(await this.GetUserIdAsync());
+
+        this.games.AddRange(games);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await authenticationStateProvider.GetUserIdAsync();
+    }
+
+    public async Task CreateAsync()
+    {
+        var game = await this.gameRepository.AddAsync(await this.GetUserIdAsync(), "New Game");
+        this.games.Add(game);
+        //this.NavManager.NavigateTo($"/character/{character.Id}");
     }
 }
