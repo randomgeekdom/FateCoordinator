@@ -38,6 +38,7 @@ builder.Services.AddTransient<IFateCoordinatorContext>(x => x.GetService<Applica
 builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
 builder.Services.AddTransient<IDieRollerService, DieRollerService>();
 builder.Services.AddTransient<IGameRepository, GameRepository>();
+builder.Services.AddTransient<ILimiter, Limiter>();
 
 var app = builder.Build();
 

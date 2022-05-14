@@ -1,5 +1,6 @@
 ﻿using FateCoordinator.Contracts;
 using FateCoordinator.Model.Games;
+using FateCoordinator.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -8,10 +9,12 @@ namespace FateCoordinator.Repositories
     public class GameRepository : IGameRepository
     {
         private readonly IFateCoordinatorContext context;
+        private readonly ILimiter limiter;
 
-        public GameRepository(IFateCoordinatorContext context)
+        public GameRepository(IFateCoordinatorContext context, ILimiter limiter)
         {
             this.context = context;
+            this.limiter = limiter;
         }
 
         public async Task<GameDto> AddAsync(Guid userId, string name)
@@ -28,6 +31,12 @@ namespace FateCoordinator.Repositories
             };
 
             game.Data = JsonConvert.SerializeObject(dto);
+
+            var limit = await this.limiter.GetGameLimitAsync();
+            if ((await context.Games.Where(x=>x.UserId == userId).CountAsync()) >= limit)
+            {
+                throw new Exception($"Maximum limit of {limit} games reached.");
+            }
 
             await context.Games.AddAsync(game);
             await context.SaveChangesAsync();

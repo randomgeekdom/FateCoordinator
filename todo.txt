@@ -16,10 +16,7 @@ Game Page
 			Once GAme Page is done add first 10 games
 			Filter to first 10 characters
 
-Player Character Limit = 10
-
-Game Limit = 5
-
+Move GetUserId out of presentation and inject into repositories
 
 
 VERSION 2:
@@ -27,5 +24,7 @@ Custom stress tracks
 
 Tech Debt
 	Repositories can consolidate code
-	Views can reuse a "getuserid"
 	Get Rid of warnings
+	Separate out services into separate project
+		Unit testing
+	PRetty-up identity pages

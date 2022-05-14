@@ -6,6 +6,7 @@
 @inject AuthenticationStateProvider authenticationStateProvider;
 @inject NavigationManager NavManager;
 @inject IGameRepository gameRepository;
+@inject IJSRuntime JS;
 
 <PageTitle>Games</PageTitle>
 
@@ -64,8 +65,14 @@
 
     public async Task CreateAsync()
     {
-        var game = await this.gameRepository.AddAsync(await this.GetUserIdAsync(), "New Game");
-        this.games.Add(game);
-        //this.NavManager.NavigateTo($"/character/{character.Id}");
+        try
+        {
+            var game = await this.gameRepository.AddAsync(await this.GetUserIdAsync(), "New Game");
+            this.games.Add(game); 
+        }
+        catch(Exception ex)
+        {
+            await JS.InvokeVoidAsync("alert", ex.Message);
+        }
     }
 }

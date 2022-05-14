@@ -7,6 +7,7 @@
 @inject ICharacterRepository characterRepository;
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject NavigationManager NavManager
+@inject IJSRuntime JS;
 
 <PageTitle>Characters</PageTitle>
 
@@ -67,8 +68,15 @@ else
 
     public async Task CreateAsync()
     {
-        var character = await this.characterRepository.AddCharacterAsync(await this.GetUserIdAsync(), "New Character");
-        this.NavManager.NavigateTo($"/character/{character.Id}");
+        try
+        {
+            var character = await this.characterRepository.AddCharacterAsync(await this.GetUserIdAsync(), "New Character");
+            this.NavManager.NavigateTo($"/character/{character.Id}");   
+        }
+        catch(Exception ex)
+        {
+            await JS.InvokeVoidAsync("alert", ex.Message);
+        }
     }
 
     private async Task<Guid> GetUserIdAsync()

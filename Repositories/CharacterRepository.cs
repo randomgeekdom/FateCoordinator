@@ -1,5 +1,6 @@
 ﻿using FateCoordinator.Contracts;
 using FateCoordinator.Model.Characters;
+using FateCoordinator.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
@@ -8,10 +9,12 @@ namespace FateCoordinator.Repositories
     public class CharacterRepository : ICharacterRepository
     {
         private readonly IFateCoordinatorContext context;
+        private readonly ILimiter limiter;
 
-        public CharacterRepository(IFateCoordinatorContext context)
+        public CharacterRepository(IFateCoordinatorContext context, ILimiter limiter)
         {
             this.context = context;
+            this.limiter = limiter;
         }
 
         public async Task<CharacterDto> AddCharacterAsync(Guid userId, string name)
@@ -22,6 +25,13 @@ namespace FateCoordinator.Repositories
             };
 
             var dto = this.GetNewCharacter(character.Id, name);
+
+
+            var limit = await this.limiter.GetCharacterLimitAsync();
+            if ((await context.Characters.Where(x => x.UserId == userId).CountAsync()) >= limit)
+            {
+                throw new Exception($"Maximum limit of {limit} characters reached.");
+            }
 
             character.Data = JsonConvert.SerializeObject(dto);
 
