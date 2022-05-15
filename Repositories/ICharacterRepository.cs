@@ -10,5 +10,6 @@ namespace FateCoordinator.Repositories
         Task<IEnumerable<CharacterDto>> GetAllAsync(Guid userId);
         Task SaveCharacterAsync(Guid userId, CharacterDto character);
         Task DeleteCharacterAsync(Guid userId, Guid characterId);
+        Task<Guid> CopyAsync(Guid userId, CharacterDto character);
     }
 }

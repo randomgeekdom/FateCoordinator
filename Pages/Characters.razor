@@ -22,9 +22,16 @@
         {
             <div class="col-md-4">
                 <div class="card m-3">
-                    <div class="card-header bg-primary bg-opacity-75">
+                    <div class="card-header bg-primary bg-opacity-75 align-content-center">
                         <div class="card-title">
-                            <a href="character/@character.Id"><h2>@character.Name</h2></a>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <a href="character/@character.Id"><h2>@character.Name</h2></a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="btn btn-primary btn-sm" @onclick="(async)=>CopyAsync(character)">Copy</a>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-subtitle">
                             <sub class="text-positive">@GetCharacterAspect(character, 0)</sub>
@@ -43,6 +50,7 @@
                     </div>
                     <div class="card-footer">
                         <sub>Footer: Should contain game that it's a part of</sub>
+                        <a class="btn btn-danger btn-sm btn-close" @onclick="(async)=>DeleteAsync(character)"></a>
                     </div>
                 </div>
             </div>
@@ -98,5 +106,21 @@ else
         }
 
         return "";
+    }
+
+    public async Task CopyAsync(CharacterDto character)
+    {
+        var newCharacterId = await this.characterRepository.CopyAsync(await this.GetUserIdAsync(), character);
+        this.NavManager.NavigateTo($"/character/{newCharacterId}");   
+    }
+
+    public async Task DeleteAsync(CharacterDto character)
+    {
+        var result = await JS.Confirm("Are you sure you want to delete this character?");
+        if (result)
+        {
+            await this.characterRepository.DeleteCharacterAsync(await this.GetUserIdAsync(), character.Id);
+            this.characters.Remove(character);
+        }
     }
 }

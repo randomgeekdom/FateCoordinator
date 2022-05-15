@@ -41,6 +41,24 @@ namespace FateCoordinator.Repositories
             return dto;
         }
 
+        public async Task<Guid> CopyAsync(Guid userId, CharacterDto characterDto)
+        {
+            var character = new Character
+            {
+                UserId = userId
+            };
+
+            characterDto.Id = character.Id;
+            characterDto.Name += " - copy";
+
+            character.Data = JsonConvert.SerializeObject(characterDto);
+
+            await context.Characters.AddAsync(character);
+            await context.SaveChangesAsync();
+
+            return character.Id;
+        }
+
         public async Task DeleteCharacterAsync(Guid userId, Guid characterId)
         {
             var existingCharacter = await this.context.Characters.SingleAsync(x => x.Id == characterId && x.UserId == userId);

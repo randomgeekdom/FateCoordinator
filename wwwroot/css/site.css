@@ -121,3 +121,9 @@ inline{
     display:inline;
     text-align: right;
 }
+
+.btn-close{
+    border: solid;
+    border-color: red;
+    background-color: red;
+}
