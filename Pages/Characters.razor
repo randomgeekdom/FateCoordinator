@@ -11,7 +11,9 @@
 
 <PageTitle>Characters</PageTitle>
 
-<button class="btn btn-primary btn-sm" @onclick="(async)=>CreateAsync()">Create Character</button>
+<AuthorizeView>
+    <Authorized>
+        <button class="btn btn-primary btn-sm" @onclick="(async)=>CreateAsync()">Create Character</button>
 
 @if (characters.Any())
 {
@@ -51,6 +53,10 @@ else
 {
     <div>No characters have been created</div>
 }
+    </Authorized>
+</AuthorizeView>
+
+
 
 @code {
     private List<CharacterDto> characters = new List<CharacterDto>();

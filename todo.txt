@@ -19,7 +19,7 @@ Game Page
 
 Move GetUserId out of presentation and inject into repositories
 
-Add authorizeview to character, characters, game, games
+
 
 
 VERSION 2:

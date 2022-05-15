@@ -10,7 +10,9 @@
 
 <PageTitle>Games</PageTitle>
 
-<h1>Games</h1>
+<AuthorizeView>
+    <Authorized>
+        <h1>Games</h1>
 
 <button class="btn btn-primary btn-sm" @onclick="(async)=>CreateAsync()">Create Game</button>
 
@@ -38,6 +40,10 @@
         </div>
     }
 }
+
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
     private List<GameDto> games = new List<GameDto>();

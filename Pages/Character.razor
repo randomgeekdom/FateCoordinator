@@ -10,6 +10,9 @@
 @inject NavigationManager NavManager;
 @inject IDieRollerService dieRollerService;
 
+<AuthorizeView>
+    <Authorized>
+        
 <div class="row">
     <div class="col-md-8">
         
@@ -235,6 +238,9 @@ else
         </div>
     </div>
 }
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
     [Parameter]
