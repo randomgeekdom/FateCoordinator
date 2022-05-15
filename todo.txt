@@ -19,8 +19,6 @@ Game Page
 
 Move GetUserId out of presentation and inject into repositories
 
-Character Pictures
-
 Add authorizeview to character, characters, game, games
 
 
@@ -33,3 +31,8 @@ VERSION 2:
 		Separate out services into separate project
 			Unit testing
 		PRetty-up identity pages
+
+	Pictures
+		Character Pictures
+		Game Pictures
+		Map Backgrounds

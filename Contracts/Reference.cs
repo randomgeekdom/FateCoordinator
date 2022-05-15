@@ -16,8 +16,8 @@ namespace FateCoordinator.Services
                 {
                     { Skills.Shoot, 4 },
                     { Skills.Investigate, 4 },
-                    { Skills.Notice, 4 },
-                    { Skills.Will, 3 },
+                    { Skills.Notice, 3 },
+                    { Skills.Will, 4 },
                     { Skills.Physique, 1 },
                 },
                 StressTracks = GetDefaultStressTracks(),
@@ -26,6 +26,12 @@ namespace FateCoordinator.Services
                 {
                     "Starship First Mate",
                     "Fastest Gun in space"
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 4 }
                 }
             }
         };
