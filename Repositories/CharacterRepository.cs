@@ -97,49 +97,10 @@ namespace FateCoordinator.Repositories
             {
                 Id = characterId,
                 Name = name,
-                Skills = Skills.GetAll().ToDictionary(x => x, y => 0),
+                Skills = Reference.GetDefaultSkills().ToDictionary(x => x, y => 0),
                 Aspects = Enumerable.Repeat(string.Empty, 5).ToList(),
-                Consequences = new List<Consequence>
-                {
-                    new Consequence{
-                        Condition = string.Empty,
-                        Level = 2
-                    },
-
-                    new Consequence{
-                        Condition = string.Empty,
-                        Level = 4
-                    },
-
-                    new Consequence{
-                        Condition = string.Empty,
-                        Level = 6
-                    }
-                },
-                StressTracks = new List<StressTrack>
-                {
-                    new StressTrack
-                    {
-                        Name = "Physical Stress",
-                        Skill = Skills.Physique,
-                        Stress = new List<Stress>
-                        {
-                            new Stress( 1, false ),
-                            new Stress( 2, false )
-                        }
-                    },
-
-                    new StressTrack
-                    {
-                        Name = "Mental Stress",
-                        Skill = Skills.Will,
-                        Stress = new List<Stress>
-                        {
-                            new Stress( 1, false ),
-                            new Stress( 2, false )
-                        }
-                    }
-                },
+                Consequences = Reference.GetDefaultConsequences(),
+                StressTracks = Reference.GetDefaultStressTracks(),
                 Refresh = 3,
                 FatePoints = 3
             };

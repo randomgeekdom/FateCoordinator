@@ -26,11 +26,5 @@ namespace FateCoordinator.Contracts
         public const string Will = "Will";
         public const string Investigate = "Investigate";
         public const string Fight = "Fight";
-
-        public static IOrderedEnumerable<string> GetAll()
-        {
-            var list = typeof(Skills).GetFields(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(null).ToString()).OrderBy(x => x);
-            return list;
-        }
     }
 }

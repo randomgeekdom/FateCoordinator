@@ -6,6 +6,7 @@ Character Page
 
 Enemies Page (reinstate as a Bestiary)
 	Architect
+	New Enemy (repeat)
 
 Game Page
 	Games Page
@@ -18,13 +19,17 @@ Game Page
 
 Move GetUserId out of presentation and inject into repositories
 
+Character Pictures
+
+Add authorizeview to character, characters, game, games
+
 
 VERSION 2:
-Custom stress tracks
+	Custom stress tracks
 
-Tech Debt
-	Repositories can consolidate code
-	Get Rid of warnings
-	Separate out services into separate project
-		Unit testing
-	PRetty-up identity pages
+	Tech Debt
+		Repositories can consolidate code
+		Get Rid of warnings
+		Separate out services into separate project
+			Unit testing
+		PRetty-up identity pages

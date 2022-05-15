@@ -1,0 +1,51 @@
+﻿@page "/enemy-list"
+@using FateCoordinator.Contracts
+@using FateCoordinator.Repositories
+@using FateCoordinator.Extensions
+@using FateCoordinator.Services
+
+@inject ICharacterRepository characterRepository;
+@inject AuthenticationStateProvider authenticationStateProvider;
+
+
+<PageTitle>Enemy List</PageTitle>
+
+<form>
+    <label for="dropdown">Select an enemy to view details</label>
+    <select id="dropdown" class="form-control" @bind="EnemyId">
+        <option value=@(default(Guid))></option>
+        @foreach(var enemy in Reference.Bestiary.OrderBy(x=>x.Name))
+        {
+            <option value="@enemy.Id">@enemy.Name</option>
+        }
+    </select>
+</form>
+
+<div>
+    <h4>@SelectedEnemy?.Name</h4> 
+</div>
+
+@code{
+    private Guid EnemyId = default(Guid);
+    private CharacterDto SelectedEnemy
+    {
+        get
+        {
+            var selected = Reference.Bestiary.FirstOrDefault(x=>x.Id == EnemyId);
+            return selected;
+        }
+    }
+
+    private IEnumerable<CharacterDto> characters = Enumerable.Empty<CharacterDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.characters = await this.characterRepository.GetAllAsync(await this.GetUserIdAsync());
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await this.authenticationStateProvider.GetUserIdAsync();
+    }
+}
