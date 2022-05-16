@@ -101,6 +101,7 @@
                             <h6>@stressTrack.Name (@stressTrack.Skill): </h6>
                             @foreach(var (stress, index) in stressTrack.Stress.Select((key, value)=>(key, value)))
                             {
+                                <a class="btn-close" @onclick="()=>DeleteStress(stressTrack.Name, stress.Level, index)"></a>
                                 @stress.Level <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" @onchange="@(e => UpdateStress(e.Value.ToString(), stressTrack.Name, stress.Level, index))" /> 
                             }
                         </div>
@@ -367,6 +368,12 @@ else
         var value = bool.Parse(textValue);
         var track = this.CharacterDto.StressTracks.Single(x=>x.Name==trackName);
         track.Stress.ElementAt(index).Value = value;
+    }
+
+    public void DeleteStress(string trackName, int stress, int index)
+    {
+        var track = this.CharacterDto.StressTracks.Single(x=>x.Name==trackName);
+        track.Stress.RemoveAt(index);
     }
 
     public void UpdateConsequence(string value, int level, int index)

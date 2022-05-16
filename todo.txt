@@ -1,9 +1,11 @@
 Character Page
-	Allow Removing Stress
 	Allow Adding stress
 	Allow ability to make Enemies public
 		If you change from Enemy to PC or NPC, disallow public
 	Button for "Use Core Stress Boxes" and "Use Condensed Stress Boxes"
+	Spend Fate Point
+	Take Hit Button (numberbox + button on each stress track)  If no tracks, add consequence
+	End Session button.  End Scene Button.  End Scenario button.
 
 Enemies Page
 	New Enemy (repeat)
@@ -19,6 +21,9 @@ Game Page
 
 Move GetUserId out of presentation and inject into repositories
 
+Home Page
+	Show Games
+	If no characters, say no characters
 
 
 
