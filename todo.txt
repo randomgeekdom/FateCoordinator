@@ -1,6 +1,5 @@
 Character Page
 	Validator
-	Allow Copy
 	Allow Removing Stress
 	Allow Adding stress
 

@@ -127,3 +127,7 @@ inline{
     border-color: red;
     background-color: red;
 }
+
+.red-text{
+    color: red;
+}

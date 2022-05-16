@@ -39,6 +39,7 @@ builder.Services.AddTransient<ICharacterRepository, CharacterRepository>();
 builder.Services.AddTransient<IDieRollerService, DieRollerService>();
 builder.Services.AddTransient<IGameRepository, GameRepository>();
 builder.Services.AddTransient<ILimiter, Limiter>();
+builder.Services.AddTransient<IValidator, Validator>();
 
 var app = builder.Build();
 

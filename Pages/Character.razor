@@ -9,6 +9,7 @@
 @inject IJSRuntime JS;
 @inject NavigationManager NavManager;
 @inject IDieRollerService dieRollerService;
+@inject IValidator validator
 
 <AuthorizeView>
     <Authorized>
@@ -38,10 +39,17 @@
         {
             <button class="btn btn-primary m-3 btn-sm" @onclick="ToggleEdit">Edit</button>
         }
-
+        
         <button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
+
+        <button class="btn btn-light m-3 btn-sm" @onclick="()=>Validate()">Validate</button>
     </div>
 </div>
+
+        @foreach(var validation in this.Validations)
+        {
+            <p class="red-text">@validation</p>
+        }
 
 @if(this.IsEditing)
 {
@@ -229,7 +237,7 @@ else
                         <div><b>+@i</b>: 
                             @foreach(var skill in CharacterDto.Skills.Where(x => x.Value == i))
                             {
-                                <a class="btn btn-sm btn-outline-primary m-1" @onclick="()=>Roll(i)"> @skill.Key</a>
+                                <a class="btn btn-sm btn-outline-primary m-1" @onclick="()=>Roll(skill.Value)"> @skill.Key</a>
                             }
                         </div>
                     }
@@ -383,10 +391,17 @@ else
 
     public DiceRollResult? DiceRollResult = null;
 
-    private void Roll(int modifier)
+    private void Roll(int addValue)
     {
-        this.DiceRollResult = this.dieRollerService.RollDice(modifier);
+        this.DiceRollResult = this.dieRollerService.RollDice(addValue);
     }
+
+    private void Validate()
+    {
+        this.Validations = this.validator.ValidateCharacter(this.CharacterDto);
+    }
+
+    public IEnumerable<string> Validations { get; set; } = Enumerable.Empty<string>();
 
     public int modifier{ get; set; }
 }
