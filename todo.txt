@@ -1,20 +1,21 @@
 Character Page
-	Validator
 	Allow Removing Stress
 	Allow Adding stress
+	Allow ability to make Enemies public
+		If you change from Enemy to PC or NPC, disallow public
+	Button for "Use Core Stress Boxes" and "Use Condensed Stress Boxes"
 
-Enemies Page (reinstate as a Bestiary)
-	Architect
+Enemies Page
 	New Enemy (repeat)
 
 Game Page
 	Games Page
 	Details 
 	Characters
-	Roll history
-		Finish home screen
-			Once GAme Page is done add first 10 games
-			Filter to first 10 characters
+		Roll history
+			Finish home screen
+				Once GAme Page is done add first 10 games
+				Filter to first 10 characters
 
 Move GetUserId out of presentation and inject into repositories
 
@@ -35,3 +36,4 @@ VERSION 2:
 		Character Pictures
 		Game Pictures
 		Map Backgrounds
+		Random Name generator (use existing nuget packages)

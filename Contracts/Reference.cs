@@ -33,7 +33,44 @@ namespace FateCoordinator.Services
                     new Consequence { Level = 2 },
                     new Consequence { Level = 4 }
                 }
-            }
+            },
+            new CharacterDto
+            {
+                Id = new Guid("1b0e4fbe-38af-4234-bca2-4d8ff6a0a003"),
+                CharacterType = CharacterType.Enemy,
+                Name = "RoboSentry",
+                Skills = new Dictionary<string, int>
+                {
+                    { Skills.Shoot, 4 },
+                    { Skills.Physique, 3 },
+                },
+                StressTracks = new List<StressTrack>{
+                    new StressTrack
+                    {
+                        Name = "Physical Stress",
+                        Skill = Skills.Physique,
+                        Stress = new List<Stress>
+                        {
+                            new Stress( 1, false ),
+                            new Stress( 1, false ),
+                            new Stress( 1, false ),
+                            new Stress( 1, false ),
+                            new Stress( 1, false )
+                        }
+                    },
+                },
+                Stunts = "Doubleshot: Shoot twice in a single turn",
+                Aspects = new List<string>
+                {
+                    "Robotic Soldier",
+                    "Dumb Robot",
+                    "Inhuman"
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 2 }
+                }
+            },
         };
 
         public static List<Consequence> GetDefaultConsequences() => new List<Consequence>
