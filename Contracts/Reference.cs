@@ -100,6 +100,30 @@ namespace FateCoordinator.Services
                     new Consequence { Level = 2 }
                 }
             },
+            new CharacterDto
+            {
+                Id = new Guid("5f1253e4-f583-40b5-a4e0-646fbf7b09a3"),
+                CharacterType = CharacterType.Enemy,
+                Name = "Space Pirate",
+                Skills = new Dictionary<string, int>
+                {
+                    { Skills.Deceive, 4 },
+                    { Skills.Athletics, 2 },
+                    { Skills.Rapport, 2 },
+                },
+                StressTracks = GetDefaultStressTracks(),
+                Aspects = new List<string>
+                {
+                    "Space Pirate",
+                    "Only cares about themself",
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 1 },
+                    new Consequence { Level = 3 },
+                    new Consequence { Level = 4 },
+                }
+            },
         };
 
         public static List<Consequence> GetDefaultConsequences() => new List<Consequence>

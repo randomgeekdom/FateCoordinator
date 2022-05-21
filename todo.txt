@@ -8,9 +8,6 @@ Character Page
 	End Session button.  End Scene Button.  End Scenario button.
 	Validate (Check stress track if skill > 4)
 
-Enemies Page
-	New Enemy (repeat)
-
 Game Page
 	Games Page
 	Details 
@@ -23,6 +20,9 @@ Game Page
 Home Page
 	Show Games
 		If no games, say no games
+
+Enemies Page
+	New Enemy (repeat)
 
 
 
