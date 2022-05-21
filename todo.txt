@@ -5,8 +5,7 @@ Character Page
 	Button for "Use Core Stress Boxes" and "Use Condensed Stress Boxes"
 	Spend Fate Point
 	Take Hit Button (numberbox + button on each stress track)  If no tracks, add consequence
-	End Session button.  End Scene Button.  End Scenario button.
-	Validate (Check stress track if skill > 4)
+	Validate (Check stress tracks based on skill (1-2, 3) (3-4, 4))
 
 Game Page
 	Games Page
@@ -43,3 +42,5 @@ VERSION 2:
 		Random Name generator (use existing nuget packages)
 
 	Move GetUserId out of presentation and inject into repositories
+	
+	End Session button.  End Scene Button.  End Scenario button.

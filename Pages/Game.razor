@@ -1,0 +1,54 @@
+﻿@page "/game/{GameIdText}"
+@using FateCoordinator.Contracts
+@using FateCoordinator.Extensions
+@using FateCoordinator.Repositories
+@using FateCoordinator.Services
+
+@inject IGameRepository gameRepository;
+@inject AuthenticationStateProvider authenticationStateProvider;
+@inject IJSRuntime JS;
+@inject NavigationManager NavManager;
+@inject IDieRollerService dieRollerService;
+@inject IValidator validator
+@inject IStressTrackFactory stressTrackFactory;
+
+<AuthorizeView>
+    <Authorized>
+        <h5>@GameDto.Name</h5>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    [Parameter]
+    public string GameIdText { get; set; } = "";
+
+    private Guid GameId => Guid.Parse(this.GameIdText);
+
+    public GameDto GameDto { get; set; } = new GameDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.GameDto = await this.gameRepository.GetAsync(await this.GetUserIdAsync(), this.GameId);
+        await base.OnInitializedAsync();
+    }
+
+    private async Task<Guid> GetUserIdAsync()
+    {
+        return await authenticationStateProvider.GetUserIdAsync();
+    }
+
+    public async Task SaveAsync()
+    {
+        await this.gameRepository.SaveAsync(await this.GetUserIdAsync(), this.GameDto);
+    }
+
+    public async Task DeleteAsync()
+    {
+        if(await JS.Confirm("Are you sure you want to delete this character?"))
+        {
+            await this.gameRepository.DeleteAsync(await this.GetUserIdAsync(), this.GameId);
+            this.NavManager.NavigateTo("/games");
+        }
+    }
+}
