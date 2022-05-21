@@ -9,6 +9,35 @@ namespace FateCoordinator.Services
         private static IEnumerable<CharacterDto> bestiary => new List<CharacterDto>{
             new CharacterDto
             {
+                Id = new Guid("e6c60ce2-9aa5-4d34-a2ac-ce208ecbbbce"),
+                CharacterType = CharacterType.Enemy,
+                Name = "Angela Plantajenner",
+                Skills = new Dictionary<string, int>
+                {
+                    { Skills.Provoke, 1 },
+                    { Skills.Notice, 2 },
+                    { Skills.Empathy, 1 },
+                    { Skills.Crafts, 2 },
+                    { Skills.Physique, 1 },
+                    { Skills.Will, 2 },
+                },
+                StressTracks = GetDefaultStressTracks(),
+                Stunts = "Shipwright: +2 Crafts to repair ship",
+                Aspects = new List<string>
+                {
+                    "Starship Captain",
+                    "Only cares about the ship"
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 3 },
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 1 }
+                }
+            },
+            new CharacterDto
+            {
                 Id = new Guid("e933ddd1-24e8-4114-97d7-65450e724248"),
                 CharacterType = CharacterType.Enemy,
                 Name = "Gerry \"Gunner\" Macker",

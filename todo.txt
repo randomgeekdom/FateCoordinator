@@ -6,6 +6,7 @@ Character Page
 	Spend Fate Point
 	Take Hit Button (numberbox + button on each stress track)  If no tracks, add consequence
 	End Session button.  End Scene Button.  End Scenario button.
+	Validate (Check stress track if skill > 4)
 
 Enemies Page
 	New Enemy (repeat)
@@ -18,8 +19,6 @@ Game Page
 			Finish home screen
 				Once GAme Page is done add first 10 games
 				Filter to first 10 characters
-
-Move GetUserId out of presentation and inject into repositories
 
 Home Page
 	Show Games
@@ -42,3 +41,5 @@ VERSION 2:
 		Game Pictures
 		Map Backgrounds
 		Random Name generator (use existing nuget packages)
+
+	Move GetUserId out of presentation and inject into repositories
