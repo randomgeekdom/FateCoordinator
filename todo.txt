@@ -22,7 +22,7 @@ Game Page
 
 Home Page
 	Show Games
-	If no characters, say no characters
+		If no games, say no games
 
 
 

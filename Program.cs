@@ -40,6 +40,7 @@ builder.Services.AddTransient<IDieRollerService, DieRollerService>();
 builder.Services.AddTransient<IGameRepository, GameRepository>();
 builder.Services.AddTransient<ILimiter, Limiter>();
 builder.Services.AddTransient<IValidator, Validator>();
+builder.Services.AddTransient<IStressTrackFactory, StressTrackFactory>();
 
 var app = builder.Build();
 

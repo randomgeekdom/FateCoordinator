@@ -10,6 +10,7 @@
 @inject NavigationManager NavManager;
 @inject IDieRollerService dieRollerService;
 @inject IValidator validator
+@inject IStressTrackFactory stressTrackFactory;
 
 <AuthorizeView>
     <Authorized>
@@ -93,6 +94,8 @@
             <div class="card my-3">
                 <div class="card-header bg-@GetBootstrapColor()">
                     <h5 class="text-white">Stress</h5>
+                    <button @onclick="()=>GenerateStressTracks(false)" class="btn btn-sm btn-primary">Core</button>
+                    <button @onclick="()=>GenerateStressTracks(true)" class="btn btn-sm btn-primary">Condensed</button>
                 </div>
                 <form class="m-2">
                     @foreach(var stressTrack in CharacterDto.StressTracks)
@@ -411,4 +414,12 @@ else
     public IEnumerable<string> Validations { get; set; } = Enumerable.Empty<string>();
 
     public int modifier{ get; set; }
+
+    public void GenerateStressTracks(bool isCondensed)
+    {
+        foreach(var track in this.CharacterDto.StressTracks)
+        {
+            track.Stress = this.stressTrackFactory.GetTrack(this.CharacterDto.Skills[track.Skill], isCondensed);
+        }
+    }
 }

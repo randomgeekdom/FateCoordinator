@@ -17,13 +17,19 @@
                     </div>
                     <div>
                         <div class="card-body">
-                            @foreach(var character in characters)
+                            @if(characters.Any()){
+                                @foreach(var character in characters)
+                                {
+                                    <div class="row">
+                                        <a class="btn btn-outline-primary" href="/character/@character.Id">
+                                            @character.Name 
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
                             {
-                                <div class="row">
-                                    <a class="btn btn-outline-primary" href="/character/@character.Id">
-                                        @character.Name 
-                                    </a>
-                                </div>
+                                <p>No characters have been added</p>
                             }
                         </div>
                     </div>
