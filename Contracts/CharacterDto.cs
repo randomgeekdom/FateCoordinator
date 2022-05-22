@@ -7,6 +7,7 @@ namespace FateCoordinator.Contracts
     {
         public Guid Id { get; set; }
 
+        public bool IsDown { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Pronouns { get; set; } = string.Empty;

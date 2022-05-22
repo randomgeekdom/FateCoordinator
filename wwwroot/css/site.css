@@ -131,3 +131,7 @@ inline{
 .red-text{
     color: red;
 }
+
+h6{
+    display:inline;
+}

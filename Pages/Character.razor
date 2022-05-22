@@ -34,16 +34,16 @@
     <div class="col-md-4">
         @if(this.IsEditing)
         {
-            <button class="btn btn-primary m-3 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+            <button class="btn btn-success m-2 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
         }
         else
         {
-            <button class="btn btn-primary m-3 btn-sm" @onclick="ToggleEdit">Edit</button>
+            <button class="btn btn-primary m-2 btn-sm" @onclick="ToggleEdit">Edit</button>
         }
         
-        <button class="btn btn-danger m-3 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
-
-        <button class="btn btn-light m-3 btn-sm" @onclick="()=>Validate()">Validate</button>
+        <button class="btn btn-danger m-2 btn-sm" @onclick="(async)=>DeleteAsync()">Delete</button>
+        
+        <button class="btn btn-light m-2 btn-sm" @onclick="()=>Validate()">Validate</button>
     </div>
 </div>
 
@@ -220,17 +220,23 @@ else
                 <p>@CharacterDto.FatePoints / @CharacterDto.Refresh</p>
                 @foreach(var stressTrack in CharacterDto.StressTracks)
                 {
-                    <h6>@stressTrack.Name (@stressTrack.Skill)</h6>
+                    <div>
+                        <h6>@stressTrack.Name (@stressTrack.Skill)</h6>
+                        <button class="btn btn-danger btn-sm" @onclick="(async)=>TakeHitAsync(stressTrack.Skill)">Take Hit</button>
+                    </div>
+                    
                     @foreach(var stress in stressTrack.Stress)
                     {
                         @stress.Level <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" disabled /> 
                     }
                 }
-                <h6>Consequences</h6>
-                @foreach(var consequence in CharacterDto.Consequences)
-                {
-                    <p>@consequence.Level : @consequence.Condition</p>
-                }
+                <div>
+                    <h6>Consequences</h6>
+                    @foreach(var consequence in CharacterDto.Consequences)
+                    {
+                        <p>@consequence.Level : @consequence.Condition</p>
+                    }
+                </div>
             </div>
             <div class="card-body col-md-4">
                 <h6>Skills</h6>
@@ -421,5 +427,45 @@ else
         {
             track.Stress = this.stressTrackFactory.GetTrack(this.CharacterDto.Skills[track.Skill], isCondensed);
         }
+    }
+
+    public async Task TakeHitAsync(string stressSkill)
+    {
+        var hitValueText = await JS.InvokeAsync<string>("prompt", "Enter hit value");
+
+        if(!int.TryParse(hitValueText, out var hitValue))
+        {
+            await JS.InvokeAsync<string>("alert", "Hit value must be a number greater than 0.");
+            return;
+        }
+
+        if (hitValue <= 0)
+        {
+            await JS.InvokeAsync<string>("alert", "Hit value must be a number greater than 0.");
+            return;
+        }
+
+        var track = this.CharacterDto.StressTracks.Single(x => x.Skill == stressSkill);
+        var hitBox = track.Stress.OrderBy(x => x.Level).FirstOrDefault(x => x.Level >= hitValue && !x.Value);
+
+        if (hitBox != null)
+        {
+            hitBox.Value = true;
+        }
+        else
+        {
+            var consequence = this.CharacterDto.Consequences.OrderBy(x => x.Level).FirstOrDefault(x => x.Level >= hitValue && string.IsNullOrWhiteSpace(x.Condition));
+            if (consequence != null)
+            {
+                consequence.Condition = await JS.InvokeAsync<string>("prompt", $"Enter {this.GetConsequencePlaceholder(consequence.Level)} consequence");
+            }
+            else
+            {
+                CharacterDto.IsDown = true;
+                await JS.InvokeAsync<string>("alert", $"No more stress boxes and consequences are available.  You are down.");
+            }
+        }
+
+        await this.SaveAsync();
     }
 }

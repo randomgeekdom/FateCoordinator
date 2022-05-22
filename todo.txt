@@ -2,13 +2,12 @@ Character Page
 	Allow Adding stress
 	Allow ability to make Enemies public
 		If you change from Enemy to PC or NPC, disallow public
-	Button for "Use Core Stress Boxes" and "Use Condensed Stress Boxes"
 	Spend Fate Point
-	Take Hit Button (numberbox + button on each stress track)  If no tracks, add consequence
 	Validate (Check stress tracks based on skill (1-2, 3) (3-4, 4))
+	Randomize Skills button
+	Implement IsDown on UI (add revive button)
 
 Game Page
-	Games Page
 	Details 
 	Characters
 		Roll history
