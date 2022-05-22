@@ -50,6 +50,32 @@ namespace FateCoordinator.Services
                     { Skills.Physique, 1 },
                 },
                 StressTracks = GetDefaultStressTracks(),
+                Stunts = "Heal: Heal up to 8 shifts per session",
+                Aspects = new List<string>
+                {
+                    "Medical Robot",
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 2 },
+                    new Consequence { Level = 4 }
+                }
+            },
+            new CharacterDto
+            {
+                Id = new Guid("eb2b9520-b0a7-4794-aecb-0e4b06146c53"),
+                CharacterType = CharacterType.Enemy,
+                Name = "MedBot",
+                Skills = new Dictionary<string, int>
+                {
+                    { Skills.Crafts, 3 },
+                    { Skills.Burglary, 2 },
+                    { Skills.Physique, 1 },
+                    { Skills.Fight, 2 },
+                    { Skills.Resources, 2 },
+                },
+                StressTracks = GetDefaultStressTracks(),
                 Stunts = "Doubleshot: Shoot twice in a single turn",
                 Aspects = new List<string>
                 {
