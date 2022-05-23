@@ -64,6 +64,35 @@ namespace FateCoordinator.Services
             },
             new CharacterDto
             {
+                Id = new Guid("9218b3ff-dc61-4da3-9fd9-b64349d36f6f"),
+                CharacterType = CharacterType.Enemy,
+                Name = "Engineer",
+                Skills = new Dictionary<string, int>
+                {
+                    { Skills.Deceive, 4 },
+                    { Skills.Shoot, 2 },
+                    { Skills.Crafts, 4 },
+                    { Skills.Drive, 3 },
+                    { Skills.Notice, 2 },
+                    { Skills.Will, 3 },
+                    { Skills.Physique, 1 },
+                },
+                StressTracks = GetDefaultStressTracks(),
+                Stunts = "Shipwright: +2 to Crafts for fixing ship",
+                Aspects = new List<string>
+                {
+                    "I can fix it"
+                },
+                Consequences = new List<Consequence>
+                {
+                    new Consequence { Level = 1 },
+                    new Consequence { Level = 1 },
+                    new Consequence { Level = 4 },
+                    new Consequence { Level = 4 }
+                }
+            },
+            new CharacterDto
+            {
                 Id = new Guid("eb2b9520-b0a7-4794-aecb-0e4b06146c53"),
                 CharacterType = CharacterType.Enemy,
                 Name = "MedBot",
