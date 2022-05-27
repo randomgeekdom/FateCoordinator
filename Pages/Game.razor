@@ -14,7 +14,9 @@
 
 <AuthorizeView>
     <Authorized>
-        <h5>@GameDto.Name</h5>
+        <h5><a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Name))">@GameDto.Name</a></h5>
+        <p>Genre(s): <a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Genre))">@GameDto.Genre</a></p>
+        <p>Description: <a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Description))">@GameDto.Description</a></p>
     </Authorized>
 </AuthorizeView>
 
@@ -50,5 +52,17 @@
             await this.gameRepository.DeleteAsync(await this.GetUserIdAsync(), this.GameId);
             this.NavManager.NavigateTo("/games");
         }
+    }
+
+    public async Task UpdateFieldAsync(string fieldName)
+    {
+        var text = await JS.InvokeAsync<string>("prompt", $"New {fieldName}");
+
+        if(string.IsNullOrWhiteSpace(text)){
+            return;
+        }
+
+        this.GameDto.GetType().GetProperty(fieldName).SetValue(this.GameDto, text);
+        await this.SaveAsync();
     }
 }

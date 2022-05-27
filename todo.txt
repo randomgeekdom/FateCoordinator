@@ -11,12 +11,8 @@ Character Page
 	Save character on button actions
 
 Game Page
-	Details 
 	Characters
 		Roll history
-			Finish home screen
-				Once GAme Page is done add first 10 games
-				Filter to first 10 characters
 
 Enemies Page
 	New Enemy (repeat)
