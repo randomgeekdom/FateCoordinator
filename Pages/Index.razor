@@ -4,6 +4,7 @@
 @using FateCoordinator.Extensions
 
 @inject ICharacterRepository characterRepository;
+@inject IGameRepository gameRepository;
 @inject AuthenticationStateProvider authenticationStateProvider;
 
 <AuthorizeView>
@@ -30,6 +31,31 @@
                             else
                             {
                                 <p>No characters have been added</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary">
+                        <div class="card-title"><h2>Games</h2></div>
+                    </div>
+                    <div>
+                        <div class="card-body">
+                            @if(characters.Any()){
+                                @foreach(var game in games)
+                                {
+                                    <div class="row">
+                                        <a class="btn btn-outline-primary" href="/game/@game.Id">
+                                            @game.Name 
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>No games have been added</p>
                             }
                         </div>
                     </div>
@@ -68,10 +94,12 @@
 
 @code{
     private IEnumerable<CharacterDto> characters = Enumerable.Empty<CharacterDto>();
+    private IEnumerable<GameDto> games = Enumerable.Empty<GameDto>();
 
     protected override async Task OnInitializedAsync()
     {
         this.characters = await this.characterRepository.GetAllAsync(await this.GetUserIdAsync());
+        this.games = await this.gameRepository.GetAllAsync(await this.GetUserIdAsync());
         await base.OnInitializedAsync();
     }
 
