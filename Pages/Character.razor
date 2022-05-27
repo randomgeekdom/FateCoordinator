@@ -34,7 +34,7 @@
     <div class="col-md-4">
         @if(this.IsEditing)
         {
-            <button class="btn btn-success m-2 btn-sm" @onclick="(async)=>SaveAsync()">Save</button>
+            <button class="btn btn-success m-2 btn-sm" @onclick="(async)=>SaveAndCloseAsync()">Save</button>
         }
         else
         {
@@ -175,6 +175,7 @@
             <div class="card">
                 <div class="card-header bg-@GetBootstrapColor()">
                     <h5 class="text-white">Skills</h5>
+                    <button class="btn btn-sm btn-primary" @onclick="(async)=>GenerateSkillsAsync()">Randomize</button>
                 </div>
                 <form class="m-2">
                     @foreach(var skill in CharacterDto.Skills)
@@ -284,6 +285,11 @@ else
     public async Task SaveAsync()
     {
         await this.characterRepository.SaveCharacterAsync(await this.GetUserIdAsync(), this.CharacterDto);
+    }
+
+    public async Task SaveAndCloseAsync()
+    {
+        await this.SaveAsync();
         this.IsEditing = false;
     }
 
@@ -427,6 +433,31 @@ else
         {
             track.Stress = this.stressTrackFactory.GetTrack(this.CharacterDto.Skills[track.Skill], isCondensed);
         }
+    }
+
+    public async Task GenerateSkillsAsync()
+    {
+        var list = Reference.GetDefaultSkills().OrderBy(x => Guid.NewGuid()).ToList();
+        foreach(var skill in list)
+        {
+            CharacterDto.Skills[skill] = 0;
+        }
+
+        var random = new Random();
+        var level = this.CharacterDto.CharacterType == CharacterType.Player ? 4 : random.Next(1, 5);
+
+        for(int i = 1; i <= level; i++)
+        {
+            var numberOfSkills = level - i + 1;
+            for(int j = 1; j<=numberOfSkills; j++)
+            {
+                var skill = list.First();
+                this.CharacterDto.Skills[skill] = i;
+                list.Remove(skill);
+            }
+        }
+
+        await this.SaveAsync();
     }
 
     public async Task TakeHitAsync(string stressSkill)
