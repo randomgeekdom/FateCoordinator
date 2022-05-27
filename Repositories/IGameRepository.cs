@@ -8,6 +8,7 @@ namespace FateCoordinator.Repositories
         Task DeleteAsync(Guid userId, Guid gameId);
         Task<IEnumerable<GameDto>> GetAllAsync(Guid userId);
         Task<GameDto> GetAsync(Guid userId, Guid gameId);
+        Task<IEnumerable<CharacterDto>> GetCharactersAsync(Guid userId, Guid gameId);
         Task SaveAsync(Guid userId, GameDto game);
     }
 }

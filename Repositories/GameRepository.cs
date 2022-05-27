@@ -85,6 +85,21 @@ namespace FateCoordinator.Repositories
             return dto;
         }
 
+        public async Task<IEnumerable<CharacterDto>> GetCharactersAsync(Guid userId, Guid gameId)
+        {
+            var gameCharacters = await this.context.GameCharacters.Where(x => x.UserId == userId && x.GameId == gameId).Select(x=>x.CharacterId).ToListAsync();
+
+
+            var characters = this.context.Characters.Where(x => x.UserId == userId && gameCharacters.Contains(x.Id));
+
+            if (!(await characters.AnyAsync()))
+            {
+                return Enumerable.Empty<CharacterDto>();
+            }
+
+            return await characters.Select(x => JsonConvert.DeserializeObject<CharacterDto>(x.Data)!).ToListAsync();
+        }
+
         public async Task SaveAsync(Guid userId, GameDto game)
         {
             var existingGame = await this.context.Games.SingleAsync(x => x.Id == game.Id && x.UserId == userId);

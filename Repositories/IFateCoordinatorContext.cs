@@ -8,6 +8,7 @@ namespace FateCoordinator.Repositories
     {
         DbSet<Character> Characters { get; }
         DbSet<Game> Games { get; set; }
+        DbSet<GameCharacter> GameCharacters { get; set; }
 
         Task<int> SaveChangesAsync();
     }

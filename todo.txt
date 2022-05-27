@@ -11,15 +11,16 @@ Character Page
 	Save character on button actions
 
 Game Page
+	Add character to game
+	Separate Character list to its own control to be used in game page (delete button should change based on location)
 	Characters
 		Roll history
 
-Enemies Page
-	New Enemy (repeat)
-
-
 
 VERSION 2:
+	Enemies Page
+		New Enemy (repeat)
+
 	Custom stress tracks
 
 	Tech Debt

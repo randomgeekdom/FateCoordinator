@@ -17,6 +17,20 @@
         <h5><a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Name))">@GameDto.Name</a></h5>
         <p>Genre(s): <a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Genre))">@GameDto.Genre</a></p>
         <p>Description: <a class="btn btn-link text-white" @onclick="(async)=>UpdateFieldAsync(nameof(GameDto.Description))">@GameDto.Description</a></p>
+
+        <h2>Characters</h2>
+        <a class="btn btn-primary">Add Character</a>
+        @if (this.Characters.Any())
+        {
+            <p>No characters have been added</p>
+        }
+        else
+        {
+            @foreach(var character in this.Characters)
+            {
+                <b>@character.Name</b>
+            }
+        }
     </Authorized>
 </AuthorizeView>
 
@@ -28,10 +42,12 @@
     private Guid GameId => Guid.Parse(this.GameIdText);
 
     public GameDto GameDto { get; set; } = new GameDto();
+    public IEnumerable<CharacterDto> Characters { get; set; } = Enumerable.Empty<CharacterDto>();
 
     protected override async Task OnInitializedAsync()
     {
         this.GameDto = await this.gameRepository.GetAsync(await this.GetUserIdAsync(), this.GameId);
+        this.Characters = await this.gameRepository.GetCharactersAsync(await this.GetUserIdAsync(), this.GameId);
         await base.OnInitializedAsync();
     }
 

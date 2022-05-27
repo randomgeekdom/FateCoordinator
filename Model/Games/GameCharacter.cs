@@ -4,5 +4,7 @@
     {
         public Guid GameId { get; set; }
         public Guid PlayerId { get; set; }
+
+        public Guid CharacterId { get; set; }
     }
 }
