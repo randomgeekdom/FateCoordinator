@@ -217,7 +217,7 @@ else
                 <p>@CharacterDto.Extras</p>
             </div>
             <div class="card-body col-md-4">
-                <h6>Fate Points</h6>
+                <h6>Fate Points <button class="btn btn-sm btn-outline-warning" @onclick="(async)=>SpendFatePointAsync()">Spend</button></h6>
                 <p>@CharacterDto.FatePoints / @CharacterDto.Refresh</p>
                 @foreach(var stressTrack in CharacterDto.StressTracks)
                 {
@@ -498,5 +498,14 @@ else
         }
 
         await this.SaveAsync();
+    }
+
+    public async Task SpendFatePointAsync()
+    {
+        if(this.CharacterDto.FatePoints > 0)
+        {
+            this.CharacterDto.FatePoints--;
+            await this.SaveAsync();
+        }
     }
 }

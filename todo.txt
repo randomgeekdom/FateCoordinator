@@ -5,7 +5,6 @@ Character Page
 	Allow Adding stress
 	Allow ability to make Enemies public
 		If you change from Enemy to PC or NPC, disallow public
-	Spend Fate Point
 	Validate (Check stress tracks based on skill (1-2, 3) (3-4, 4))
 	Implement IsDown on UI (add revive button)
 	Save character on button actions
