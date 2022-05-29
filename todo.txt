@@ -2,12 +2,11 @@ Separate Readonly character to common component
 	Add to Enemies Page todo: Add Readonly character sheet
 
 Character Page
-	Allow Adding stress
+	Allow Adding stress boxes
 	Allow ability to make Enemies public
 		If you change from Enemy to PC or NPC, disallow public
 	Validate (Check stress tracks based on skill (1-2, 3) (3-4, 4))
 	Implement IsDown on UI (add revive button)
-	Save character on button actions
 
 Game Page
 	Add character to game

@@ -104,7 +104,7 @@
                             <h6>@stressTrack.Name (@stressTrack.Skill): </h6>
                             @foreach(var (stress, index) in stressTrack.Stress.Select((key, value)=>(key, value)))
                             {
-                                <a class="btn-close" @onclick="()=>DeleteStress(stressTrack.Name, stress.Level, index)"></a>
+                                <a class="btn-close" @onclick="(async)=>DeleteStressAsync(stressTrack.Name, stress.Level, index)"></a>
                                 @stress.Level <input class="form-check-input form-check-inline" type="checkbox" value="@(stress.Value ? "True" : "False")" checked="@(stress.Value ? "checked" : null)" @onchange="@(e => UpdateStress(e.Value.ToString(), stressTrack.Name, stress.Level, index))" /> 
                             }
                         </div>
@@ -307,9 +307,10 @@ else
         this.IsEditing = !this.IsEditing;
     }
 
-    public void AddAspect()
+    public async Task AddAspectAsync()
     {
         this.CharacterDto.Aspects.Add(string.Empty);
+        await this.SaveAsync();
     }
 
     public string GetPlaceholder(int index)
@@ -331,11 +332,15 @@ else
     {
         this.CharacterDto.Aspects.RemoveAt(index);
         this.CharacterDto.Aspects.Insert(index, value);
+
+        this.SaveAsync().Wait();
     }
 
     public void UpdateSkill(string key, int value)
     {
         this.CharacterDto.Skills[key] = value;
+
+        this.SaveAsync().Wait();
     }
 
     public string GetTextValue(int numericValue)
@@ -383,12 +388,17 @@ else
         var value = bool.Parse(textValue);
         var track = this.CharacterDto.StressTracks.Single(x=>x.Name==trackName);
         track.Stress.ElementAt(index).Value = value;
+        
+
+        this.SaveAsync().Wait();
     }
 
-    public void DeleteStress(string trackName, int stress, int index)
+    public async Task DeleteStressAsync(string trackName, int stress, int index)
     {
         var track = this.CharacterDto.StressTracks.Single(x=>x.Name==trackName);
         track.Stress.RemoveAt(index);
+
+        await this.SaveAsync();
     }
 
     public void UpdateConsequence(string value, int level, int index)
@@ -397,6 +407,9 @@ else
         if (consequence != null)
         {
             consequence.Condition = value;
+            
+
+            this.SaveAsync().Wait();
         }
     }
 
